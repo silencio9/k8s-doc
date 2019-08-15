@@ -1,0 +1,63 @@
+{
+  "title": "kubernetes",
+  "keywords": "",
+  "description": "",
+  "author":"",
+  "language": "zh-hans",
+  "links" : {
+    "sidebar" : {
+        "kubernetes" : "http://genchui.com"
+    }
+  },
+  "theme-default": {
+      "showLevel": true
+  },
+  "styles": {
+    "website": "styles/website.css"
+  },
+
+  "plugins": [
+    "-highlight",
+    "toggle-chapters",
+    "codeblock-filename",
+    "sectionx",
+    "splitter",
+    "-search",
+    "-lunr",
+    "search-pro",
+    "prism",
+    "prism-themes",
+    "theme-comscore",
+    "local-video",
+    "include",
+    "favicon",
+    "anchors"
+  ],
+  "pluginsConfig": {
+    "search-pro": {
+        "cutWordLib": "nodejieba",
+        "defineWord" : ["Gitbook Use"]
+    },
+    "3-ba": {
+           "token": "5acb80dbfab84cdf5a7d41a8b3581049"
+       },
+  "sharing": {
+      "weibo": true,
+      "facebook": true,
+      "twitter": true,
+      "google": false,
+      "instapaper": false,
+      "vk": false,
+      "qq":true,
+      "all": [
+          "facebook", "google", "twitter",
+              "weibo", "instapaper"
+      ]
+    },
+    "prism": {
+        "css": [
+            "prism-themes/themes/prism-base16-ateliersulphurpool.light.css"
+        ]
+    }
+  }
+}
