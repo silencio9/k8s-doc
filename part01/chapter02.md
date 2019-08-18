@@ -1,0 +1,188 @@
+# 利用kubeadm 部署 kubernetes
+
+## kubeadm 介绍
+
+github地址： [点击此处](https://github.com/kubernetes/kubeadm)      
+官网安装地址： [点击此处](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)     
+详细介绍地址： [点击此处](https://github.com/kubernetes/kubeadm/blob/master/docs/design/design_v1.10.md)    
+
+## 节点分配
+
+配置信息：  
+1. CentOS7.6
+2. 2 GB 以上
+3. 2 核以上
+4. 小写的主机名
+5. Swap disabled.
+6. 充足的硬盘空间
+
+
+|节点|ip地址|节点角色|
+|-|-|-|
+|k8s-master01.example.com|10.10.10.5|master|
+|k8s-node01.example.com|10.10.10.6|node01|
+|k8s-node02.example.com|10.10.10.7|node02|
+
+设置主机名
+
+```shell
+hostnamectl set-hostname k8s-master01.example.com
+# hostnamectl set-hostname k8s-node01.example.com
+# hostnamectl set-hostname k8s-node02.example.com
+cat >> /etc/hosts << EOF
+10.10.10.5 k8s-master01.example.com k8s-master01
+10.10.10.6 k8s-node01.example.com k8s-node01
+10.10.10.7 k8s-node02.example.com k8s-node02
+EOF
+```
+准备工作
+```shell
+# 关闭selinux
+sed -i 's#SELINUX=enforcing#SELINUX=disabled#g' /etc/selinux/config
+# 关闭防火墙
+systemctl stop firewalld
+systemctl disable firewalld
+# 有swap的话
+sed -ri 's/.*swap.*/#&/' /etc/fstab
+swapoff -a
+# 增大文件描述数值 默认1024
+echo "* soft nofile 65536" >> /etc/security/limits.conf
+echo "* hard nofile 65536" >> /etc/security/limits.conf
+echo "* soft nproc 65536"  >> /etc/security/limits.conf
+echo "* hard nproc 65536"  >> /etc/security/limits.conf
+echo "* soft  memlock  unlimited"  >> /etc/security/limits.conf
+echo "* soft  memlock  unlimited"  >> /etc/security/limits.conf
+# 修改一些内核
+cat >> /etc/sysctl.conf << EOF
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+
+vm.swappiness = 0
+net.ipv4.neigh.default.gc_stale_time=120
+net.ipv4.ip_forward = 1
+
+# see details in https://help.aliyun.com/knowledge_detail/39428.html
+net.ipv4.conf.all.rp_filter=0
+net.ipv4.conf.default.rp_filter=0
+net.ipv4.conf.default.arp_announce = 2
+net.ipv4.conf.lo.arp_announce=2
+net.ipv4.conf.all.arp_announce=2
+
+
+# see details in https://help.aliyun.com/knowledge_detail/41334.html
+net.ipv4.tcp_max_tw_buckets = 5000
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_max_syn_backlog = 1024
+net.ipv4.tcp_synack_retries = 2
+kernel.sysrq = 1
+
+# iptables透明网桥的实现
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.bridge.bridge-nf-call-arptables = 1
+EOF
+```
+
+
+## 操作具体步骤
+
+### 1. 增加源并安装
+
+docker
+```shell
+wget -O /etc/yum.repos.d/docker-ce.repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+
+# 查看docker-ce版本
+yum --showduplicates list docker-ce
+
+# 安装docker-ce
+yum -y install docker-ce
+```
+
+kubernetes
+```shell
+cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+EOF
+yum -y install kubeadm-1.15.2 kubelet-1.15.2 kubectl-1.15.2
+```
+设置开机自启
+```shell
+systemctl enable docker kubelet
+
+```
+
+### 2. 拉取镜像
+查看使用的镜像然后用一下的命令进行替换
+```shell
+kubeadm config images list
+```
+如何直接修改库文件可以查看文末  
+```shell
+# 拉取镜像（all）
+docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1.15.2
+docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.15.2
+docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v1.15.2
+docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.1
+docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/etcd:3.3.10
+docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/coredns:1.3.1
+docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v1.15.2
+
+# 对镜像重新改名（all）
+docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1.15.2 k8s.gcr.io/kube-controller-manager:v1.15.2
+docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.15.2 k8s.gcr.io/kube-scheduler:v1.15.2
+docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v1.15.2 k8s.gcr.io/kube-proxy:v1.15.2
+docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.1 k8s.gcr.io/pause:3.1
+docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/etcd:3.3.10 k8s.gcr.io/etcd:3.3.10
+docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/coredns:1.3.1 k8s.gcr.io/coredns:1.3.1
+docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v1.15.2 k8s.gcr.io/kube-apiserver:v1.15.2
+```
+
+### 3. master初始化
+
+```shell
+kubeadm init --kubernetes-version=v1.15.2 --pod-network-cidr=10.244.0.0/16 \
+        --service-cidr=10.96.0.0/12 --ignore-preflight-errors=Swap | tee kubeadm_init.txt
+
+# 查看是否健康
+kubectl  get componentstatus
+```
+部署flannel 网络组建  
+github地址: https://github.com/coreos/flannel  
+```shell
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+```
+
+### 4. node加入
+
+每次初始化之后最后一句都是不一样的  跟token和证书相关，命令就不复制了  
+主要是使用`kubeadm join`进行加入
+
+
+
+
+
+## 补充
+
+### 1. kubeadm使用配置文件进行修改源
+推荐使用上文的方式来进行pull镜像
+```shell
+kubeadm config print init-defaults Print default init configuration >> kubeadm.conf
+# 修改里面内容imageRepository 对应的仓库改为阿里云仓库的
+imageRepository: registry.cn-hangzhou.aliyuncs.com
+# 其他版本也需要做相对应的修改
+kubernetesVersion: v1.15.2
+# 最后运行
+kubeadm config images list --config kubeadm.conf
+kubeadm config images pull --config kubeadm.conf
+kubeadm init --config kubeadm.conf
+# 更多详细信息
+kubeadm config print-defaults
+```

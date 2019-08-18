@@ -1,9 +1,9 @@
 * [汉克kubernetes](README.md)
 * [一、kubernetes介绍](part01/README.md)
-  * [1.kubernetes介绍]
-  * [2.kubernetes安装]
-  * [3.kubernetes快速入门]
-  * [4.kubernetes资源对象和基本概念解析]
+  * [1.kubernetes介绍](part01/chapter01.md)
+  * [2.kubernetes安装](part01/chapter02.md)
+  * [3.kubernetes尝试](part01/chapter03.md)
+  * [4.kubernetes资源对象和基本概念解析](part01/chapter04.md)
 * [二、kubernetes之pod](part02/README.md)
 * [三、kubernetes之控制器](part03/README.md)
 * [四、kubernetes之服务发现](part04/README.md)
