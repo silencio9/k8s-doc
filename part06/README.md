@@ -46,3 +46,43 @@ spec:
     persistentVolumeClaim:
       claimName: nfs-pvc01
 ```
+
+ConfigMap
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: www-conf
+data:
+  www.conf: |
+    server {
+      listen 81;
+    }
+```
+
+pod
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-example-1
+  labels:
+    app: myapp
+spec:
+  containers:
+  - name: myapp
+    image: hank997/webapp:v1
+    ports:
+    - name: http
+      containerPort: 80
+    volumeMounts:
+    - name: nginxconfig
+      mountPath: /home/conf.d/
+      readOnly: true
+  volumes:
+  - name: nginxconfig
+    configMap:
+      name: www-conf
+```
