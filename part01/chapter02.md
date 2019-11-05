@@ -160,6 +160,11 @@ github地址: https://github.com/coreos/flannel
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 ```
 
+calico
+
+网址 https://docs.projectcalico.org/master/getting-started/kubernetes/installation/calico  
+注意版本的对应关系
+
 ### 4. node加入
 
 每次初始化之后最后一句都是不一样的  跟token和证书相关，命令就不复制了  
