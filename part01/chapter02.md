@@ -165,6 +165,8 @@ calico
 网址 https://docs.projectcalico.org/master/getting-started/kubernetes/installation/calico  
 注意版本的对应关系
 
+还需要注意cidr的IP网段去pod一样
+
 ### 4. node加入
 
 每次初始化之后最后一句都是不一样的  跟token和证书相关，命令就不复制了  
