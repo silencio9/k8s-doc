@@ -19,10 +19,12 @@ wget https://get.helm.sh/helm-v2.16.0-linux-amd64.tar.gz
 tar xf helm-v2.16.0-linux-amd64.tar.gz
 mv linux-amd64/helm /usr/bin/
 helm init
-# 替换helm源
-helm repo add stable https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
+# 替换helm源,国内源不轻易使用，仓库更新慢
+#elm repo add stable https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
 # 更新源
 helm repo update
+# 二进制安装的k8s 需要自行安装socat
+yum install socat -y
 # 所有机器执行拉取镜像操作
 docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.16.0
 docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.16.0 gcr.io/kubernetes-helm/tiller:v2.16.0
@@ -37,9 +39,13 @@ cd charts
 # 修改配置清单,一般来说，都需要修改配置文件来符合公司业务情况使用
 vim stable/jenkins/values.yaml
 # 安装redis
-helm install --name hank-redis  stable/jenkins
+helm install --name hank-redis  stable/redis
 # 缓存位置
 ～/.helm/cache/ # 对应的各种压缩包，tgz，解压即可
 # 删除release
 helm delete hank-redis
+# 创建一个模版
+helm create myapp
+# charts 介绍
+# https://helm.sh/docs/developing_charts/#charts
 ```
