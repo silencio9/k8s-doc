@@ -48,4 +48,41 @@ helm delete hank-redis
 helm create myapp
 # charts 介绍
 # https://helm.sh/docs/developing_charts/#charts
+# 查看pvc的创建
+#url: /part06/extre01.md
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

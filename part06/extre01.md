@@ -2,7 +2,7 @@
 kubernete1.11之前和之后有点小区别
 
 
-```json
+```yaml
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -56,3 +56,33 @@ spec:
     persistentVolumeClaim:
       claimName: yxs-pvc
 ```
+
+挂载宿主机路径
+
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: hank-jenkins
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Delete
+  hostPath:
+    path: /data/hank-jenkins
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: hank-jenkins
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+```
+
