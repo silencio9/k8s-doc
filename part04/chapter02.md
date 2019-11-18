@@ -55,8 +55,8 @@ spec:
   selector:
     app: web
     name: hank-web01
+  ports:
   - name: hank-web-port
-    protocol: HTTP
     port: 80
     targetPort: 80
 ```
@@ -64,3 +64,36 @@ spec:
 https://kubernetes.io/zh/docs/concepts/services-networking/ingress/
 
 安装ingress
+
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-web
+  labels:
+    name: ingress-web
+    app: web
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+#  backend:
+#    serviceName: hank-web-service
+#    servicePort: 80
+  rules:
+  - host: ingress.hankbook.com
+    http:
+      paths:
+      - path:
+        backend:
+          serviceName: hank-web-service
+          servicePort: 80
+#  rules:  # 定义规则
+```
+
+查看
+```
+kubectl describe ingress
+kubectl get pod
+kubectl  exec -it -n ingress-nginx nginx-ingress-controller-568867bf56-vp8nj bash
+```
