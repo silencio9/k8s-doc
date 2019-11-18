@@ -97,3 +97,11 @@ kubectl describe ingress
 kubectl get pod
 kubectl  exec -it -n ingress-nginx nginx-ingress-controller-568867bf56-vp8nj bash
 ```
+
+访问：
+使用域名的方式，就要使用域名的方式进行访问  
+直接使用backend的方式就是普通的跳转  
+```
+echo 127.0.0.1 ingress.hankbook.com >> /etc/hosts
+curl ingress.hankbook.com:32234
+```
