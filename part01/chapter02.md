@@ -185,7 +185,10 @@ calico
 主要是使用`kubeadm join`进行加入
 
 
-
+### 5. 部署dashboard
+```
+https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+```
 
 
 ## 补充
