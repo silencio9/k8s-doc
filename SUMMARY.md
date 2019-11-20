@@ -12,3 +12,9 @@
 * [五、kubernetes之网络](part05/README.md)
 * [六、kubernetes之存储](part06/README.md)
 * [七、kubernetes之实践](part07/README.md)
+* [八、kubernetes之集群资源管理]
+    * [1. Node]
+    * [2. Namespace]
+    * [3. Label]
+    * [4. Annotation]
+    * [5. Taint和Toleration]
