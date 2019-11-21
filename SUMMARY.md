@@ -1,4 +1,4 @@
-* [汉克kubernetes](README.md)
+* [kubernetes](README.md)
 * [一、kubernetes介绍](part01/README.md)
   * [1.kubernetes介绍](part01/chapter01.md)
   * [2.kubernetes安装](part01/chapter02.md)
@@ -7,8 +7,8 @@
 * [二、kubernetes之pod](part02/README.md)
 * [三、kubernetes之控制器](part03/README.md)
 * [四、kubernetes之服务发现](part04/README.md)
-    * [1.service][part04/chapter01.md]
-    * [2.ingress][part04/chapter02.md]
+    * [1.service](part04/chapter01.md)
+    * [2.ingress](part04/chapter02.md)
 * [五、kubernetes之网络](part05/README.md)
 * [六、kubernetes之存储](part06/README.md)
 * [七、kubernetes之实践](part07/README.md)

@@ -1,12 +1,12 @@
 {
   "title": "kubernetes",
-  "keywords": "",
-  "description": "",
-  "author":"",
+  "keywords": "kubernetes",
+  "description": "kubernetes介绍",
+  "author":"Hank",
   "language": "zh-hans",
   "links" : {
     "sidebar" : {
-        "kubernetes" : "http://genchui.com"
+        "kubernetes" : "http://genchui.cn"
     }
   },
   "theme-default": {
