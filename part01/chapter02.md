@@ -186,8 +186,39 @@ calico
 
 
 ### 5. 部署dashboard
+https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/  
+这是token账户的地址  
+https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md  
 ```
-https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta6/aio/deploy/recommended.yaml
+# 修改成nodeport的方式，然后使用
+kubectl apply -f recommended.yaml
+
+```
+设置token的账户
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kube-system
+```
+获取token
+```shell
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
 ```
 
 
