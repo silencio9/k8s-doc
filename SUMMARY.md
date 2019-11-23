@@ -7,11 +7,12 @@
 * [二、kubernetes之pod](pods/README.md)
 * [三、kubernetes之控制器](controllers/README.md)
 * [四、kubernetes之服务发现](service-discovery/README.md)
-    * [1.service](part04/chapter01.md)
-    * [2.ingress](part04/chapter02.md)
+    * [1.service](service-discovery/chapter01.md)
+    * [2.ingress](service-discovery/chapter02.md)
 * [五、kubernetes之网络](networkings/README.md)
 * [六、kubernetes之存储](storage/README.md)
 * [七、kubernetes之实践](practice/README.md)
+    * [1. 二进制下载](practice/kubernetes-colony/chapter01.md)
 * [八、kubernetes之集群资源管理]
     * [1. Node]
     * [2. Namespace]

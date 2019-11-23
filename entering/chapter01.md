@@ -4,6 +4,8 @@
 github地址: https://github.com/kubernetes/kubernetes  
 api地址： https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.15/  
 
+理解DevOps书籍推荐《凤凰项目》
+
 ## 1. 容器到容器云
 
 单机-集群
