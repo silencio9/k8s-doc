@@ -86,3 +86,5 @@ spec:
     configMap:
       name: www-conf
 ```
+
+弹性存储  ceph rook 和portworx 
