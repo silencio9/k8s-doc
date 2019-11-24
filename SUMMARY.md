@@ -14,6 +14,9 @@
 * [七、kubernetes之实践](practice/README.md)
     * [1. kubernetes集群部署](pratice/README.md)
       * [1.1 二进制下载](practice/kubernetes-colony/chapter01.md)
+      * [1.2 TLS证书创建和分发](practice/kubernetes-colony/chapter02.md)
+      * [1.3 创建etcd集群](practice/kubernetes-colony/chapter03.md)
+
 * [八、kubernetes之集群资源管理]
     * [1. Node]
     * [2. Namespace]

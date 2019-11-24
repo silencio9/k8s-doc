@@ -1,4 +1,6 @@
 # 环境准备
+**本次集群使用的是域名的方式进行不部署，所以一定要配置好域名解析**  
+**不使用域名解析的方式，只需要把对应的域名改成ip即可使用**
 ## 基础环境准备
 1. 准备三台服务器，一台master，两台node节点
   ```shell
@@ -6,5 +8,9 @@
     2核4G内存
     50G硬盘
   ```
-2. 基础优化
-  
+2. 配置好`hosts`解析
+  ```shell
+  echo "10.10.10.5 k8s01.example.com" >> /etc/hosts
+  echo "10.10.10.6 k8s02.example.com"  >> /etc/hosts
+  echo "10.10.10.7 k8s03.example.com"  >> /etc/hosts
+  ```
