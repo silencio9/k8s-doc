@@ -16,7 +16,15 @@
       * [1.1 二进制下载](practice/kubernetes-colony/chapter01.md)
       * [1.2 TLS证书创建和分发](practice/kubernetes-colony/chapter02.md)
       * [1.3 创建etcd集群](practice/kubernetes-colony/chapter03.md)
-
+      * [1.4 master之api服务](practice/kubernetes-colony/chapter04.md)
+      * [1.5 master之controller服务](practice/kubernetes-colony/chapter05.md)
+      * [1.6 master之scheduler服务](practice/kubernetes-colony/chapter06.md)
+      * [1.7 client之kubectl服务](practice/kubernetes-colony/chapter07.md)
+      * [1.8 node之proxy服务](practice/kubernetes-colony/chapter08.md)
+      * [1.9 node之kubelet服务](practice/kubernetes-colony/chapter09.md)
+      * [1.10 网络插件部署](practice/kubernetes-colony/chapter10.md)
+      * [1.11 其他组件部署](practice/kubernetes-colony/chapter11.md)
+    * [2. kubeadm生产部署介绍](practice/kubeadm-colony.md)
 * [八、kubernetes之集群资源管理]
     * [1. Node]
     * [2. Namespace]
