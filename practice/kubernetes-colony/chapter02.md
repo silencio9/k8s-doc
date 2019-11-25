@@ -108,6 +108,9 @@ cat >> etcd-csr.json << EOF
   "CN": "etcd",
   "hosts": [
     "127.0.0.1",
+    "10.10.10.5",
+    "10.10.10.6",
+    "10.10.10.7",
     "k8s01.example.com",
     "k8s02.example.com",
     "k8s03.example.com"

@@ -1,6 +1,8 @@
 # 创建etcd集群
 ## TLS 认证文件
 
+ETCD 3.1 之后不支持监听域名，证书需要改成IP形式
+
 需要为 etcd 集群创建加密通信的 TLS 证书，这里使用上次创建的etcd证书
 
 下载二进制文件
@@ -63,28 +65,33 @@ WantedBy=multi-user.target
 **需要了解更多的参数使用etcd --help 进行查看**
 
 环境变量配置文件`/etc/etcd/etcd.conf`
+```shell
+mkdir -p /etc/etcd/
 
 ```
+
+```config
 # [member]
 ETCD_NAME=etcd-node01
 ETCD_DATA_DIR="/var/lib/etcd"
-ETCD_LISTEN_PEER_URLS="https://k8s01.example.com:2380"
-ETCD_LISTEN_CLIENT_URLS="https://k8s01.example.com:2379"
+ETCD_LISTEN_PEER_URLS="https://10.10.10.5:2380"
+ETCD_LISTEN_CLIENT_URLS="https://10.10.10.5:2379"
 
 #[cluster]
-ETCD_INITIAL_ADVERTISE_PEER_URLS="https://k8s01.example.com:2380"
+ETCD_INITIAL_ADVERTISE_PEER_URLS="https://10.10.10.5:2380"
 ETCD_INITIAL_CLUSTER="etcd-node01=https://k8s01.example.com:2380, etcd-node02=https://k8s02.example.com:2380, etcd-node03=https://k8s03.example.com:2380"
 ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster"
-ETCD_ADVERTISE_CLIENT_URLS="https://k8s01.example.com:2379"
+ETCD_ADVERTISE_CLIENT_URLS="https://10.10.10.5:2379"
 ```
-
-这是172.20.0.113节点的配置，其他两个etcd节点只要将上面的IP地址改成相应节点的IP地址即可。ETCD_NAME换成对应节点的etcd-node01 etcd-node02 etcd-node03 。
+**注意**： 监听地址修改成对应主机的IP地址  
+这是10.10.10.5节点的配置，其他两个etcd节点只要将上面的IP地址改成相应节点的IP地址即可。ETCD_NAME换成对应节点的etcd-node01 etcd-node02 etcd-node03 。
 
 其中 **`ETCD_INITIAL_CLUSTER`** 是指定集群的机器
 
 ## 启动 etcd 服务
 
 ```
+mkdir -p /var/lib/etcd
 mv etcd.service /usr/lib/systemd/system/
 systemctl daemon-reload
 systemctl enable etcd
