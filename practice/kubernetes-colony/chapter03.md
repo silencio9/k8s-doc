@@ -83,7 +83,7 @@ ETCD_INITIAL_CLUSTER="etcd-node01=https://k8s01.example.com:2380, etcd-node02=ht
 ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster"
 ETCD_ADVERTISE_CLIENT_URLS="https://10.10.10.5:2379"
 ```
-**注意**： 监听地址修改成对应主机的IP地址  
+**注意**： 监听地址修改成对应主机的`IP`地址,即，此处的`10.10.10.6`和`10.10.10.7`    
 这是10.10.10.5节点的配置，其他两个etcd节点只要将上面的IP地址改成相应节点的IP地址即可。ETCD_NAME换成对应节点的etcd-node01 etcd-node02 etcd-node03 。
 
 其中 **`ETCD_INITIAL_CLUSTER`** 是指定集群的机器
@@ -111,12 +111,22 @@ firewall-cmd --reload
 
 ## 验证服务
 在任一 kubernetes master 机器上执行如下命令：
-```
-$ etcdctl \
-  --endpoints=https://127.0.0.1:2379 \
+```shell
+etcdctl \
+  --endpoints=https://10.10.10.5:2379 \
   --ca-file=/etc/kubernetes/ssl/ca.pem \
   --cert-file=/etc/kubernetes/ssl/etcd.pem \
   --key-file=/etc/kubernetes/ssl/etcd-key.pem \
   cluster-health
 ```
 结果最后一行为 cluster is healthy 时表示集群服务正常。
+
+其中--endpoints可以不指定，直接在etcd的三台机器中的一台进行执行即可
+
+```shell
+etcdctl \
+  --ca-file=/etc/kubernetes/ssl/ca.pem \
+  --cert-file=/etc/kubernetes/ssl/etcd.pem \
+  --key-file=/etc/kubernetes/ssl/etcd-key.pem \
+  cluster-health
+```
