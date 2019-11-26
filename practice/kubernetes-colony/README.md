@@ -31,3 +31,10 @@
   ntpdate ntp1.aliyun.com
   echo '*/5 * * * * root ntpdate ntp1.aliyun.com > /dev/null 2>&1' >> /etc/crontab
   ```
+6. 解释EOF前面加`\`就不会转义例如
+  ```shell
+  cat > 1.log << \EOF
+  \a
+  $a
+  EOF
+  ```

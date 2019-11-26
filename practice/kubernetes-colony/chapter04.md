@@ -36,7 +36,7 @@ EOF
 ## 创建kube-apiserver.service
 
 ```shell
-cat >> kube-apiserver.service << EOF
+cat >> kube-apiserver.service << \EOF
 [Unit]
 Description=Kubernetes API Service
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes
@@ -44,18 +44,23 @@ After=network.target
 After=etcd.service
 
 [Service]
-EnvironmentFile=-/etc/kubernetes/config
+EnvironmentFile=-/etc/kubernetes/kube.conf
 EnvironmentFile=-/etc/kubernetes/apiserver.conf
 ExecStart=/usr/local/bin/kube-apiserver \
         $KUBE_LOGTOSTDERR \
         $KUBE_LOG_LEVEL \
         $KUBE_ETCD_SERVERS \
-        $KUBE_API_ADDRESS \
+        $KUBE_ADVERTISE_ADDRESS \
         $KUBE_API_PORT \
         $KUBELET_PORT \
         $KUBE_ALLOW_PRIV \
         $KUBE_SERVICE_ADDRESSES \
         $KUBE_ADMISSION_CONTROL \
+        &KUBE_ETCD_CERT \
+        $KUBE_API_CERT \
+        $KUBE_BOOTSTRAP \
+        $KUBE_NODE_PORT \
+        $KUBE_LOG \
         $KUBE_API_ARGS
 Restart=on-failure
 Type=notify
@@ -65,9 +70,40 @@ LimitNOFILE=65536
 WantedBy=multi-user.target
 EOF
 ```
+kube.conf
+
+```config
+KUBE_LOGTOSTDERR="--logtostderr=true"
+KUBE_LOG_LEVEL="--v=0"
+KUBE_ALLOW_PRIV="--allow-privileged=true"
+KUBE_MASTER="--master=http://10.10.10.5:8080"
+```
 
 /etc/kubernetes/apiserver.conf
 
-```
+```config
+#
+KUBE_ADVERTISE_ADDRESS="--advertise-address=10.10.10.5"
+KUBE_BIND_ADDRESS="--bind-address=10.10.10.5 --insecure-bind-address=10.10.10.5"
+
+KUBE_ETCD_SERVERS="--etcd-servers=https://10.10.10.5:6379, https://10.10.10.6:6379, https://10.10.10.7:6379,"
+
+KUBE_ETCD_CERT="--etcd-cafile=/etc/kubernetes/ssl/ca.pem --etcd-certfile=/etc/kubernetes/ssl/etcd.pem --etcd-keyfile=/etc/kubernetes/ssl/etcd-key.pem"
+
+KUBE_SERVICE_ADDRESSES="--service-cluster-ip-range=10.96.0.0/16 "
+#KUBE_API_PORT="--port=8080"
+#
+## Port minions listen on
+#KUBELET_PORT="--kubelet-port=10250"
+
+KUBE_ADMISSION_CONTROL="--admission-control=ServiceAccount,NamespaceLifecycle,NamespaceExists,LimitRanger,ResourceQuota"
+KUBE_API_CERT="--tls-cert-file=/etc/kubernetes/ssl/kubernetes.pem --tls-private-key-file=/etc/kubernetes/ssl/kubernetes-key.pem --client-ca-file=/etc/kubernetes/ssl/ca.pem --service-account-key-file=/etc/kubernetes/ssl/ca-key.pem "
+KUBE_BOOTSTRAP="--token-auth-file=/etc/kubernetes/bootstrap-token.csv --enable-bootstrap-token-auth"
+
+KUBE_NODE_PORT="--service-node-port-range=30000-32767"
+
+KUBE_LOG="--audit-log-maxage=30 --audit-log-maxbackup=3 --audit-log-maxsize=100 --audit-log-path=/var/lib/audit.log"
+
+KUBE_API_ARGS="--authorization-mode=Node,RBAC --runtime-config=rbac.authorization.k8s.io/v1beta1    --apiserver-count=3  --event-ttl=1h"
 
 ```
