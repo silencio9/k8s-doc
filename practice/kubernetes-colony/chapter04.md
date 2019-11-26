@@ -24,12 +24,12 @@ mv bootstrap-token.csv /etc/kubernetes/ssl/
 ```
 
 ## 创建访问用户
-
+参数`--bacis-auth-file`在16版本已经提示，将被移除
 ```shell
 cat >>  basic-auth.csv  << EOF
 admin,admin,1
 readonly,readonly,2
-# password,usernmae,id
+# password,usernmae,uid
 EOF
 ```
 
