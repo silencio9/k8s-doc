@@ -83,10 +83,10 @@ KUBE_MASTER="--master=http://10.10.10.5:8080"
 
 ```config
 #
-KUBE_ADVERTISE_ADDRESS="--advertise-address=10.10.10.5"
+KUBE_ADVERTISE_ADDRESS="--advertise-address=k8s01.example.com"
 KUBE_BIND_ADDRESS="--bind-address=10.10.10.5 --insecure-bind-address=10.10.10.5"
 
-KUBE_ETCD_SERVERS="--etcd-servers=https://10.10.10.5:6379, https://10.10.10.6:6379, https://10.10.10.7:6379,"
+KUBE_ETCD_SERVERS="--etcd-servers=https://k8s01.example.com:2379, https://k8s02.example.com:2379, https://k8s03.example.com:2379,"
 
 KUBE_ETCD_CERT="--etcd-cafile=/etc/kubernetes/ssl/ca.pem --etcd-certfile=/etc/kubernetes/ssl/etcd.pem --etcd-keyfile=/etc/kubernetes/ssl/etcd-key.pem"
 
@@ -98,7 +98,8 @@ KUBE_SERVICE_ADDRESSES="--service-cluster-ip-range=10.96.0.0/16 "
 
 KUBE_ADMISSION_CONTROL="--admission-control=ServiceAccount,NamespaceLifecycle,NamespaceExists,LimitRanger,ResourceQuota"
 KUBE_API_CERT="--tls-cert-file=/etc/kubernetes/ssl/kubernetes.pem --tls-private-key-file=/etc/kubernetes/ssl/kubernetes-key.pem --client-ca-file=/etc/kubernetes/ssl/ca.pem --service-account-key-file=/etc/kubernetes/ssl/ca-key.pem "
-KUBE_BOOTSTRAP="--token-auth-file=/etc/kubernetes/bootstrap-token.csv --enable-bootstrap-token-auth"
+
+KUBE_BOOTSTRAP="--token-auth-file=/etc/kubernetes/ssl/bootstrap-token.csv --enable-bootstrap-token-auth"
 
 KUBE_NODE_PORT="--service-node-port-range=30000-32767"
 

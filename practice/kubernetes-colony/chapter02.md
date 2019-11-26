@@ -157,6 +157,9 @@ cat >> kubernetes-csr.json << EOF
     "kubernetes.default.svc",
     "kubernetes.default.svc.cluster",
     "kubernetes.default.svc.cluster.local",
+    "10.10.10.5",
+    "10.10.10.6",
+    "10.10.10.7",
     "k8s01.example.com",
     "k8s02.example.com",
     "k8s03.example.com"
