@@ -107,3 +107,11 @@ KUBE_LOG="--audit-log-maxage=30 --audit-log-maxbackup=3 --audit-log-maxsize=100 
 KUBE_API_ARGS="--authorization-mode=Node,RBAC --runtime-config=rbac.authorization.k8s.io/v1beta1    --apiserver-count=3  --event-ttl=1h"
 
 ```
+
+启动kube-apiserver
+```shell
+systemctl daemon-reload
+systemctl enable kube-apiserver
+systemctl start kube-apiserver
+systemctl status kube-apiserver
+```
