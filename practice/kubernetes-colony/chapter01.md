@@ -27,7 +27,7 @@ tar xf kubernetes-client-linux-amd64.tar.gz
 tar xf kubernetes-server-linux-arm64.tar.gz
 tar xf kubernetes-node-linux-amd64.tar.gz
 
-mv kubernetes/client/bin/kubectl /usr/bin/
-mv kubernetes/node/bin/kubelet kubernetes/node/bin/kube-proxy /usr/bin/
-mv kubernetes/server/bin/kube-apiserver kubernetes/server/bin/kube-controller-manager kubernetes/server/bin/kube-scheduler /usr/bin/
+mv kubernetes/client/bin/kubectl /usr/local/bin/
+mv kubernetes/node/bin/kubelet kubernetes/node/bin/kube-proxy /usr/local/bin/
+mv kubernetes/server/bin/kube-apiserver kubernetes/server/bin/kube-controller-manager kubernetes/server/bin/kube-scheduler /usr/local/bin/
 ```
