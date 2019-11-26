@@ -261,4 +261,5 @@ ls kube-proxy*
 ```shell
 mkdir -p /etc/kubernetes/ssl
 cp *.pem /etc/kubernetes/ssl
+scp -r /etc/kubernetes 10.10.10.6:/etc/kubernetes
 ```
