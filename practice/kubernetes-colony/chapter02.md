@@ -151,7 +151,7 @@ cat >> kubernetes-csr.json << EOF
   "CN": "kubernetes",
   "hosts": [
     "127.0.0.1",
-    "10.1.0.1",
+    "10.96.0.1",
     "kubernetes",
     "kubernetes.default",
     "kubernetes.default.svc",

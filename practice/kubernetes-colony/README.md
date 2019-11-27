@@ -17,8 +17,8 @@
 3. 关闭防火墙，selinux
 
   ```shell
-  systemctl stop firewall
-  systemctl disable firewall
+  systemctl stop firewalld
+  systemctl disable firewalld
   sed -i 's#SELINUX=enforcing#SELINUX=disabled#g' /etc/selinux/config
   ```
 4. 关闭swap
@@ -28,6 +28,7 @@
   ```
 5. 同步时间
   ```shell
+  yum install ntpdate
   ntpdate ntp1.aliyun.com
   echo '*/5 * * * * root ntpdate ntp1.aliyun.com > /dev/null 2>&1' >> /etc/crontab
   ```

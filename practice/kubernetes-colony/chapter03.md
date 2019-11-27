@@ -37,10 +37,10 @@ WorkingDirectory=/var/lib/etcd/
 EnvironmentFile=-/etc/etcd/etcd.conf
 ExecStart=/usr/local/bin/etcd \
   --name ${ETCD_NAME} \
-  --cert-file=/etc/kubernetes/ssl/etcd.pem \
-  --key-file=/etc/kubernetes/ssl/etcd-key.pem \
-  --peer-cert-file=/etc/kubernetes/ssl/etcd.pem \
-  --peer-key-file=/etc/kubernetes/ssl/etcd-key.pem \
+  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \
+  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \
+  --peer-cert-file=/etc/kubernetes/ssl/kubernetes.pem \
+  --peer-key-file=/etc/kubernetes/ssl/kubernetes-key.pem \
   --trusted-ca-file=/etc/kubernetes/ssl/ca.pem \
   --peer-trusted-ca-file=/etc/kubernetes/ssl/ca.pem \
   --initial-advertise-peer-urls ${ETCD_INITIAL_ADVERTISE_PEER_URLS} \

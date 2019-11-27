@@ -70,7 +70,8 @@ LimitNOFILE=65536
 WantedBy=multi-user.target
 EOF
 ```
-kube.conf
+
+/etc/kubernetes/kube.conf
 
 ```config
 KUBE_LOGTOSTDERR="--logtostderr=true"
@@ -84,7 +85,7 @@ KUBE_MASTER="--master=http://10.10.10.5:8080"
 ```config
 #
 KUBE_ADVERTISE_ADDRESS="--advertise-address=k8s01.example.com"
-KUBE_BIND_ADDRESS="--bind-address=10.10.10.5 --insecure-bind-address=10.10.10.5"
+KUBE_BIND_ADDRESS="--bind-address=10.10.10.5 --insecure-bind-address=127.0.0.1 --insecure-port=8080"
 
 KUBE_ETCD_SERVERS="--etcd-servers=https://k8s01.example.com:2379, https://k8s02.example.com:2379, https://k8s03.example.com:2379,"
 
@@ -111,6 +112,7 @@ KUBE_API_ARGS="--authorization-mode=Node,RBAC --runtime-config=rbac.authorizatio
 
 启动kube-apiserver
 ```shell
+mv kube-apiserver.service /usr/lib/systemd/system/
 systemctl daemon-reload
 systemctl enable kube-apiserver
 systemctl start kube-apiserver
