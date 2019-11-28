@@ -36,33 +36,52 @@ EOF
 ## 创建kube-apiserver.service
 
 ```shell
+mkdir -p /var/log/kubernetes/
 cat >> kube-apiserver.service << \EOF
 [Unit]
-Description=Kubernetes API Service
+Description=Kubernetes API Server
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 After=network.target
-After=etcd.service
 
 [Service]
-EnvironmentFile=-/etc/kubernetes/kube.conf
-EnvironmentFile=-/etc/kubernetes/apiserver.conf
-ExecStart=/usr/local/bin/kube-apiserver \
-        $KUBE_LOGTOSTDERR \
-        $KUBE_LOG_LEVEL \
-        $KUBE_ETCD_SERVERS \
-        $KUBE_ADVERTISE_ADDRESS \
-        $KUBE_API_PORT \
-        $KUBELET_PORT \
-        $KUBE_ALLOW_PRIV \
-        $KUBE_SERVICE_ADDRESSES \
-        $KUBE_ADMISSION_CONTROL \
-        &KUBE_ETCD_CERT \
-        $KUBE_API_CERT \
-        $KUBE_BOOTSTRAP \
-        $KUBE_NODE_PORT \
-        $KUBE_LOG \
-        $KUBE_API_ARGS
+ExecStart=/usr/local/bin/kube-apiserver   \
+--enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota,NodeRestriction   \
+--bind-address=0.0.0.0  \
+--insecure-bind-address=127.0.0.1   \
+--authorization-mode=Node,RBAC   \
+--runtime-config=rbac.authorization.k8s.io/v1   \
+--kubelet-https=true   \
+--anonymous-auth=false   \
+--enable-bootstrap-token-auth   \
+--token-auth-file=/etc/kubernetes/ssl/bootstrap-token.csv   \
+--service-cluster-ip-range=10.96.0.0/16   \
+--tls-cert-file=/etc/kubernetes/ssl/kubernetes.pem   \
+--tls-private-key-file=/etc/kubernetes/ssl/kubernetes-key.pem   \
+--client-ca-file=/etc/kubernetes/ssl/ca.pem   \
+--service-account-key-file=/etc/kubernetes/ssl/ca-key.pem   \
+--etcd-cafile=/etc/kubernetes/ssl/ca.pem   \
+--etcd-certfile=/etc/kubernetes/ssl/kubernetes.pem   \
+--etcd-keyfile=/etc/kubernetes/ssl/kubernetes-key.pem   \
+--etcd-servers="https://k8s01.example.com:2379, https://k8s02.example.com:2379, https://k8s03.example.com:2379"  \
+--allow-privileged=true   \
+--audit-log-maxage=30   \
+--audit-log-maxbackup=3   \
+--audit-log-maxsize=100   \
+--audit-log-path=/var/log/kubernetes/api-audit.log   \
+--event-ttl=1h   \
+--v=0   \
+--logtostderr=false   \
+--log-dir=/var/log/kubernetes/   \
+--proxy-client-cert-file=/etc/kubernetes/ssl/kube-proxy.pem \
+--proxy-client-key-file=/etc/kubernetes/ssl/kube-proxy-key.pem \
+--requestheader-client-ca-file=/etc/kubernetes/ssl/ca.pem \
+--requestheader-allowed-names=front-proxy-client \
+--requestheader-group-headers=X-Remote-Group \
+--requestheader-extra-headers-prefix=X-Remote-Extra- \
+--requestheader-username-headers=X-Remote-User \
+--service-node-port-range=30000-32767
 Restart=on-failure
+RestartSec=5
 Type=notify
 LimitNOFILE=65536
 
@@ -70,45 +89,13 @@ LimitNOFILE=65536
 WantedBy=multi-user.target
 EOF
 ```
+**参数解释**  
+- 注意点，线上的`--bind-address`绑定的必须使用内网ip  
+- 线上`--v=0` 日志级别根据自己的需求进行修改  
+- `kubernetes`的`service`的`nodePort`默认使用端口号是`30000-32767`，如果有需要可以自己的需求进行配置指定  
+- `--etcd-servers`指定`etcd`的服务端，进行访问  
+- `--service-cluster-ip-range`定制`service`的`ip`网段，根据自己网络需求，进行修改  
 
-/etc/kubernetes/kube.conf
-
-```config
-KUBE_LOGTOSTDERR="--logtostderr=true"
-KUBE_LOG_LEVEL="--v=0"
-KUBE_ALLOW_PRIV="--allow-privileged=true"
-KUBE_MASTER="--master=http://10.10.10.5:8080"
-```
-
-/etc/kubernetes/apiserver.conf
-
-```config
-#
-KUBE_ADVERTISE_ADDRESS="--advertise-address=k8s01.example.com"
-KUBE_BIND_ADDRESS="--bind-address=10.10.10.5 --insecure-bind-address=127.0.0.1 --insecure-port=8080"
-
-KUBE_ETCD_SERVERS="--etcd-servers=https://k8s01.example.com:2379, https://k8s02.example.com:2379, https://k8s03.example.com:2379,"
-
-KUBE_ETCD_CERT="--etcd-cafile=/etc/kubernetes/ssl/ca.pem --etcd-certfile=/etc/kubernetes/ssl/etcd.pem --etcd-keyfile=/etc/kubernetes/ssl/etcd-key.pem"
-
-KUBE_SERVICE_ADDRESSES="--service-cluster-ip-range=10.96.0.0/16 "
-#KUBE_API_PORT="--port=8080"
-#
-## Port minions listen on
-#KUBELET_PORT="--kubelet-port=10250"
-
-KUBE_ADMISSION_CONTROL="--admission-control=ServiceAccount,NamespaceLifecycle,NamespaceExists,LimitRanger,ResourceQuota"
-KUBE_API_CERT="--tls-cert-file=/etc/kubernetes/ssl/kubernetes.pem --tls-private-key-file=/etc/kubernetes/ssl/kubernetes-key.pem --client-ca-file=/etc/kubernetes/ssl/ca.pem --service-account-key-file=/etc/kubernetes/ssl/ca-key.pem "
-
-KUBE_BOOTSTRAP="--token-auth-file=/etc/kubernetes/ssl/bootstrap-token.csv --enable-bootstrap-token-auth"
-
-KUBE_NODE_PORT="--service-node-port-range=30000-32767"
-
-KUBE_LOG="--audit-log-maxage=30 --audit-log-maxbackup=3 --audit-log-maxsize=100 --audit-log-path=/var/lib/audit.log"
-
-KUBE_API_ARGS="--authorization-mode=Node,RBAC --runtime-config=rbac.authorization.k8s.io/v1beta1    --apiserver-count=3  --event-ttl=1h"
-
-```
 
 启动kube-apiserver
 ```shell

@@ -100,7 +100,7 @@ ls ca*
 
 ### 创建etcd证书
 
-其中etcd的证书是可以跟kubernetes的证书一起使用，分开有解耦的机制  
+其中本次的`etcd`和下面的`kubernetes`进行通用  
 
 ```shell
 cat >> etcd-csr.json << EOF
@@ -144,7 +144,7 @@ EOF
 ### 创建 kubernetes 证书
 
 创建 kubernetes 证书签名请求文件 `kubernetes-csr.json` ：
-
+其中注意`10.96.0.1`与`kube-apiserver`的启动文件的配置参数进行匹配
 ```shell
 cat >> kubernetes-csr.json << EOF
 {
