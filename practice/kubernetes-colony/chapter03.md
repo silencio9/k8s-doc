@@ -23,21 +23,22 @@ mv etcd-v3.2.28-linux-amd64/etcd* /usr/local/bin
 ## 创建 etcd 的 systemd unit 文件
 在/usr/lib/systemd/system/目录下创建文件etcd.service，内容如下。注意替换IP地址为你自己的etcd集群的主机IP。
 
-```
+```shell
+cat > etcd.service << \EOF
 [Unit]
 Description=Etcd Server
 After=network.target
 
 [Service]
-Type=simple
+Type=notify
 WorkingDirectory=/var/lib/etcd
 EnvironmentFile=-/etc/etcd/etcd.conf
 # set GOMAXPROCS to number of processors
 ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/local/bin/etcd"
-Type=notify
 
 [Install]
 WantedBy=multi-user.target
+EOF
 ```
 - 指定 etcd 的工作目录为 /var/lib/etcd，数据目录为 /var/lib/etcd，需在启动服务前创建这个目录，否则启动服务的时候会报错“Failed at step CHDIR spawning /usr/bin/etcd: No such file or directory”；
 - 为了保证通信安全，需要指定 etcd 的公私钥(cert-file和key-file)、Peers 通信的公私钥和 CA 证书(peer-cert-file、peer-key-file、peer-trusted-ca-file)、客户端的CA证书（trusted-ca-file）；
@@ -51,10 +52,11 @@ mkdir -p /etc/etcd/
 
 ```
 
-```config
+```shell
+cat > etcd.conf << \EOF
 #[member]
 ETCD_NAME="etcd-node01"
-ETCD_DATA_DIR="/var/lib/etcd/default.etcd"
+ETCD_DATA_DIR="/var/lib/etcd"
 #ETCD_SNAPSHOT_COUNTER="10000"
 #ETCD_HEARTBEAT_INTERVAL="100"
 #ETCD_ELECTION_TIMEOUT="1000"
@@ -67,7 +69,7 @@ ETCD_LISTEN_CLIENT_URLS="https://10.10.10.5:2379,https://127.0.0.1:2379"
 ETCD_INITIAL_ADVERTISE_PEER_URLS="https://10.10.10.5:2380"
 # if you use different ETCD_NAME (e.g. test),
 # set ETCD_INITIAL_CLUSTER value for this name, i.e. "test=http://..."
-ETCD_INITIAL_CLUSTER="etcd-node01=https://10.10.10.5:2380, etcd-node02=https://10.10.10.6:2380, etcd-node03=https://10.10.10.7:2380"
+ETCD_INITIAL_CLUSTER="etcd-node01=https://10.10.10.5:2380,etcd-node02=https://10.10.10.6:2380,etcd-node03=https://10.10.10.7:2380"
 ETCD_INITIAL_CLUSTER_STATE="new"
 ETCD_INITIAL_CLUSTER_TOKEN="k8s-etcd-cluster"
 ETCD_ADVERTISE_CLIENT_URLS="https://10.10.10.5:2379"
@@ -80,17 +82,19 @@ PEER_CLIENT_CERT_AUTH="true"
 ETCD_PEER_CA_FILE="/etc/kubernetes/ssl/ca.pem"
 ETCD_PEER_CERT_FILE="/etc/kubernetes/ssl/kubernetes.pem"
 ETCD_PEER_KEY_FILE="/etc/kubernetes/ssl/kubernetes-key.pem"
+EOF
 ```
 **注意**： 监听地址修改成对应主机的`IP`地址,即，此处的`10.10.10.6`和`10.10.10.7`    
 这是10.10.10.5节点的配置，其他两个etcd节点只要将上面的IP地址改成相应节点的IP地址即可。ETCD_NAME换成对应节点的etcd-node01 etcd-node02 etcd-node03 。
 
-其中 **`ETCD_INITIAL_CLUSTER`** 是指定集群的机器
+其中 **`ETCD_INITIAL_CLUSTER`** 是指定集群的机器，不能出现空格。不然会抛出异常错误
 
 ## 启动 etcd 服务
 
 ```
 mkdir -p /var/lib/etcd
 mv etcd.service /usr/lib/systemd/system/
+mv etcd.conf /etc/etcd/etcd.conf
 systemctl daemon-reload
 systemctl enable etcd
 systemctl start etcd

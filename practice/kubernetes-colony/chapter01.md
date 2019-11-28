@@ -24,7 +24,7 @@ wget https://dl.k8s.io/v1.16.3/kubernetes-node-linux-amd64.tar.gz
 
 ```shell
 tar xf kubernetes-client-linux-amd64.tar.gz
-tar xf kubernetes-server-linux-arm64.tar.gz
+tar xf kubernetes-server-linux-amd64.tar.gz
 tar xf kubernetes-node-linux-amd64.tar.gz
 
 mv kubernetes/client/bin/kubectl /usr/local/bin/
