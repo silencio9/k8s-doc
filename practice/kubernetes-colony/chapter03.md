@@ -27,33 +27,14 @@ mv etcd-v3.2.28-linux-amd64/etcd* /usr/local/bin
 [Unit]
 Description=Etcd Server
 After=network.target
-After=network-online.target
-Wants=network-online.target
-Documentation=https://github.com/coreos
 
 [Service]
-Type=notify
-WorkingDirectory=/var/lib/etcd/
+Type=simple
+WorkingDirectory=/var/lib/etcd
 EnvironmentFile=-/etc/etcd/etcd.conf
-ExecStart=/usr/local/bin/etcd \
-  --name ${ETCD_NAME} \
-  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \
-  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \
-  --peer-cert-file=/etc/kubernetes/ssl/kubernetes.pem \
-  --peer-key-file=/etc/kubernetes/ssl/kubernetes-key.pem \
-  --trusted-ca-file=/etc/kubernetes/ssl/ca.pem \
-  --peer-trusted-ca-file=/etc/kubernetes/ssl/ca.pem \
-  --initial-advertise-peer-urls ${ETCD_INITIAL_ADVERTISE_PEER_URLS} \
-  --listen-peer-urls ${ETCD_LISTEN_PEER_URLS} \
-  --listen-client-urls ${ETCD_LISTEN_CLIENT_URLS},http://127.0.0.1:2379 \
-  --advertise-client-urls ${ETCD_ADVERTISE_CLIENT_URLS} \
-  --initial-cluster-token ${ETCD_INITIAL_CLUSTER_TOKEN} \
-  --initial-cluster ${ETCD_INITIAL_CLUSTER} \
-  --initial-cluster-state new \
-  --data-dir=${ETCD_DATA_DIR}
-Restart=on-failure
-RestartSec=5
-LimitNOFILE=65536
+# set GOMAXPROCS to number of processors
+ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/local/bin/etcd"
+Type=notify
 
 [Install]
 WantedBy=multi-user.target
@@ -71,17 +52,34 @@ mkdir -p /etc/etcd/
 ```
 
 ```config
-# [member]
-ETCD_NAME=etcd-node01
-ETCD_DATA_DIR="/var/lib/etcd"
-ETCD_LISTEN_PEER_URLS="https://10.10.10.5:2380"
-ETCD_LISTEN_CLIENT_URLS="https://10.10.10.5:2379"
-
+#[member]
+ETCD_NAME="etcd-node01"
+ETCD_DATA_DIR="/var/lib/etcd/default.etcd"
+#ETCD_SNAPSHOT_COUNTER="10000"
+#ETCD_HEARTBEAT_INTERVAL="100"
+#ETCD_ELECTION_TIMEOUT="1000"
+ETCD_LISTEN_PEER_URLS="https://192.168.40.11:2380"
+ETCD_LISTEN_CLIENT_URLS="https://192.168.40.11:2379,https://127.0.0.1:2379"
+#ETCD_MAX_SNAPSHOTS="5"
+#ETCD_MAX_WALS="5"
+#ETCD_CORS=""
 #[cluster]
-ETCD_INITIAL_ADVERTISE_PEER_URLS="https://10.10.10.5:2380"
+ETCD_INITIAL_ADVERTISE_PEER_URLS="https://192.168.40.11:2380"
+# if you use different ETCD_NAME (e.g. test),
+# set ETCD_INITIAL_CLUSTER value for this name, i.e. "test=http://..."
 ETCD_INITIAL_CLUSTER="etcd-node01=https://k8s01.example.com:2380, etcd-node02=https://k8s02.example.com:2380, etcd-node03=https://k8s03.example.com:2380"
-ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster"
-ETCD_ADVERTISE_CLIENT_URLS="https://10.10.10.5:2379"
+ETCD_INITIAL_CLUSTER_STATE="new"
+ETCD_INITIAL_CLUSTER_TOKEN="k8s-etcd-cluster"
+ETCD_ADVERTISE_CLIENT_URLS="https://192.168.40.11:2379"
+#[security]
+CLIENT_CERT_AUTH="true"
+ETCD_CA_FILE="/etc/kubernetes/ssl/ca.pem"
+ETCD_CERT_FILE="/etc/kubernetes/ssl/kubernetes.pem"
+ETCD_KEY_FILE="/etc/kubernetes/ssl/kubernetes-key.pem"
+PEER_CLIENT_CERT_AUTH="true"
+ETCD_PEER_CA_FILE="/etc/kubernetes/ssl/ca.pem"
+ETCD_PEER_CERT_FILE="/etc/kubernetes/ssl/kubernetes.pem"
+ETCD_PEER_KEY_FILE="/etc/kubernetes/ssl/kubernetes-key.pem"
 ```
 **注意**： 监听地址修改成对应主机的`IP`地址,即，此处的`10.10.10.6`和`10.10.10.7`    
 这是10.10.10.5节点的配置，其他两个etcd节点只要将上面的IP地址改成相应节点的IP地址即可。ETCD_NAME换成对应节点的etcd-node01 etcd-node02 etcd-node03 。
