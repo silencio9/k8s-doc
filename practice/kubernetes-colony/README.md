@@ -8,11 +8,16 @@
     2核4G内存
     50G硬盘
   ```
-2. 配置好`hosts`解析
+2. 配置好`hosts`解析并且分别重命名主机
   ```shell
   echo "10.10.10.5 k8s01.example.com" >> /etc/hosts
   echo "10.10.10.6 k8s02.example.com"  >> /etc/hosts
   echo "10.10.10.7 k8s03.example.com"  >> /etc/hosts
+  ```
+  ```shell
+  hostnamectl set-hostname k8s01.example.com
+  #hostnamectl set-hostname k8s02.example.com
+  #hostnamectl set-hostname k8s03.example.com
   ```
 3. 关闭防火墙，selinux
 
@@ -37,6 +42,7 @@
   ```shell
   yum install wget lrzsz bash-completion net-tools -y
   ```
+
 6. 解释EOF前面加`\`就不会转义例如
   ```shell
   cat > 1.log << \EOF
