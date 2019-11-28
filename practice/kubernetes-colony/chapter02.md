@@ -261,8 +261,11 @@ ls kube-proxy*
 
 ### 分发证书
 
+证书不能三台机器同时生成，只能一个地方进行生成
+
 ```shell
 mkdir -p /etc/kubernetes/ssl
 cp *.pem /etc/kubernetes/ssl
 scp -r /etc/kubernetes 10.10.10.6:/etc/kubernetes
+scp -r /etc/kubernetes 10.10.10.7:/etc/kubernetes
 ```

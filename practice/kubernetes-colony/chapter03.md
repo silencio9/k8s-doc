@@ -117,8 +117,8 @@ firewall-cmd --reload
 etcdctl \
   --endpoints=https://10.10.10.5:2379 \
   --ca-file=/etc/kubernetes/ssl/ca.pem \
-  --cert-file=/etc/kubernetes/ssl/etcd.pem \
-  --key-file=/etc/kubernetes/ssl/etcd-key.pem \
+  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \
+  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \
   cluster-health
 ```
 结果最后一行为 cluster is healthy 时表示集群服务正常。
@@ -128,7 +128,7 @@ etcdctl \
 ```shell
 etcdctl \
   --ca-file=/etc/kubernetes/ssl/ca.pem \
-  --cert-file=/etc/kubernetes/ssl/etcd.pem \
-  --key-file=/etc/kubernetes/ssl/etcd-key.pem \
+  --cert-file=/etc/kubernetes/ssl/kubernetes.pem \
+  --key-file=/etc/kubernetes/ssl/kubernetes-key.pem \
   cluster-health
 ```

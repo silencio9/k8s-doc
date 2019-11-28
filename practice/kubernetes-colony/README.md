@@ -28,7 +28,7 @@
   ```
 5. 同步时间
   ```shell
-  yum install ntpdate
+  yum install ntpdate -y
   ntpdate ntp1.aliyun.com
   echo '*/5 * * * * root ntpdate ntp1.aliyun.com > /dev/null 2>&1' >> /etc/crontab
   ```
