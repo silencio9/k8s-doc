@@ -3,7 +3,7 @@
 **注意： 在三台机器上都部署kube-apiserver、kube-controller-manager、kube-scheduler**
 
 ```
-export KUBE_APISERVER="https://k8s01.example.com:6443"
+export KUBE_APISERVER="https://10.10.10.5:6443"
 # 设置集群参数
 kubectl config set-cluster kubernetes \
   --certificate-authority=/etc/kubernetes/ssl/ca.pem \
