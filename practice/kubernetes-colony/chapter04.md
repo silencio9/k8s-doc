@@ -21,6 +21,8 @@ cat > bootstrap-token.csv <<EOF
 ${BOOTSTRAP_TOKEN},kubelet-bootstrap,10001,"system:kubelet-bootstrap"
 EOF
 mv bootstrap-token.csv /etc/kubernetes/ssl/
+scp /etc/kubernetes/ssl/bootstrap-token.csv 10.10.10.6:/etc/kubernetes/ssl/
+scp /etc/kubernetes/ssl/bootstrap-token.csv 10.10.10.7:/etc/kubernetes/ssl/
 ```
 
 ## 创建访问用户
@@ -31,6 +33,9 @@ admin,admin,1
 readonly,readonly,2
 # password,usernmae,uid
 EOF
+mv basic-auth.csv /etc/kubernetes/ssl/
+mv /etc/kubernetes/ssl/basic-auth.csv 10.10.10.6:/etc/kubernetes/ssl/
+mv /etc/kubernetes/ssl/basic-auth.csv 10.10.10.7:/etc/kubernetes/ssl/
 ```
 
 ## 创建kube-apiserver.service
@@ -47,7 +52,6 @@ After=network.target
 ExecStart=/usr/local/bin/kube-apiserver   \
 --enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota,NodeRestriction   \
 --bind-address=0.0.0.0  \
---insecure-bind-address=127.0.0.1   \
 --authorization-mode=Node,RBAC   \
 --runtime-config=rbac.authorization.k8s.io/v1   \
 --kubelet-https=true   \
@@ -62,7 +66,7 @@ ExecStart=/usr/local/bin/kube-apiserver   \
 --etcd-cafile=/etc/kubernetes/ssl/ca.pem   \
 --etcd-certfile=/etc/kubernetes/ssl/kubernetes.pem   \
 --etcd-keyfile=/etc/kubernetes/ssl/kubernetes-key.pem   \
---etcd-servers="https://10.10.10.5:2379, https://10.10.10.6:2379, https://10.10.10.7:2379"  \
+--etcd-servers="https://10.10.10.5:2379,https://10.10.10.6:2379,https://10.10.10.7:2379"  \
 --allow-privileged=true   \
 --audit-log-maxage=30   \
 --audit-log-maxbackup=3   \
