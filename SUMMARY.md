@@ -24,7 +24,8 @@
       * [1.9 node之kubelet服务](practice/kubernetes-colony/chapter09.md)
       * [1.10 网络插件部署](practice/kubernetes-colony/chapter10.md)
       * [1.11 其他组件部署](practice/kubernetes-colony/chapter11.md)
-    * [2. kubeadm生产部署介绍](practice/kubeadm-colony.md)
+    * [2. kubeadm生产部署介绍](practice/kubeadm-colony/README.md)
+      * [1.1 配置文件的修改](practice/kubeadm-colony/chapter01.md)
 * [八、kubernetes之集群资源管理]
     * [1. Node]
     * [2. Namespace]
