@@ -2,7 +2,7 @@
 
 Pod是kubernetes中可以创建的最小部署单元。
 
-V1 core版本的Pod的配置模板见[Pod template](../manifests/template/pod-v1-template.yaml)。
+V1 core版本的Pod的配置模板见[Pod template](/manifests/template/pod-v1-template.yaml)。
 
 ## 什么是Pod？
 
@@ -24,7 +24,7 @@ Volume跟pod有相同的生命周期（当其UID存在的时候）。当Pod因�
 
 
 
-![Pod示意图](../images/pod-overview.png)
+![Pod示意图](/images/pod-overview.png)
 
 *一个多容器Pod，包含文件提取程序和Web服务器，该服务器使用持久卷在容器之间共享存储。*
 
@@ -132,4 +132,4 @@ Pod是kubernetes REST API中的顶级资源类型。
 
 在kuberentes1.6的V1 core API版本中的Pod的数据结构如下图所示：
 
-![Pod Cheatsheet](../images/kubernetes-pod-cheatsheet.png)
+![Pod Cheatsheet](/images/kubernetes-pod-cheatsheet.png)

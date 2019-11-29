@@ -14,13 +14,13 @@ github仓库： https://github.com/helm/charts/tree/master/stable
 ## 部署
 https://github.com/helm/helm/releases 到这里下载helm客户端程序  
 
-```
+```shell
 wget https://get.helm.sh/helm-v2.16.0-linux-amd64.tar.gz
 tar xf helm-v2.16.0-linux-amd64.tar.gz
 mv linux-amd64/helm /usr/bin/
 helm init
 # 替换helm源,国内源不轻易使用，仓库更新慢
-#elm repo add stable https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
+#ehlm repo add stable https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
 # 更新源
 helm repo update
 # 二进制安装的k8s 需要自行安装socat
@@ -51,38 +51,3 @@ helm create myapp
 # 查看pvc的创建
 #url: /part06/extre01.md
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
