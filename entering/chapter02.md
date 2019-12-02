@@ -239,3 +239,18 @@ kubeadm init --config kubeadm.conf
 # 更多详细信息
 kubeadm config print-defaults
 ```
+
+### 2. 证书一年过期问题
+
+在kubeadm1.16.3版本的时候，替换证书还是alpha版本  
+
+```shell
+# 查看帮助  
+kubeadm alpha certs -h
+# 查看证书过期时间
+kubeadm alpha certs check-expiration
+# 查看替换证书命令
+kubeadm alpha certs renew -h
+# 替换所有证书
+kubeadm alpha certs renew all
+```
