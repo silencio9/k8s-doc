@@ -240,7 +240,17 @@ kubeadm init --config kubeadm.conf
 kubeadm config print-defaults
 ```
 
-### 2. 证书一年过期问题
+### 2. 证书一年过期问题（未验证、未完待续）
+
+首先需要重新编译kubeadm
+```shell
+git clone https://github.com/kubernetes/kubernetes.git
+# git checkout 1.16.3
+vim vendor/k8s.io/client-go/util/cert/cert.go
+
+
+# 修改证书
+```
 
 在kubeadm1.16.3版本的时候，替换证书还是alpha版本  
 
