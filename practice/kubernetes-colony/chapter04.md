@@ -97,7 +97,7 @@ EOF
 - 注意点，线上的`--bind-address`绑定的必须使用内网ip  
 - 线上`--v=0` 日志级别根据自己的需求进行修改  
 - `kubernetes`的`service`的`nodePort`默认使用端口号是`30000-32767`，如果有需要可以自己的需求进行配置指定  
-- `--etcd-servers`指定`etcd`的服务端，进行访问  
+- `--etcd-servers`指定`etcd`的服务端，进行访问，其中不能有引号，因为会导致`,`的分隔符不被承认，然后报错，把整个引号当成了一个整体    
 - `--service-cluster-ip-range`定制`service`的`ip`网段，根据自己网络需求，进行修改  
 
 
