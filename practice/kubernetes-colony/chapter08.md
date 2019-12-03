@@ -71,7 +71,7 @@ EOF
 
 参数介绍
 - `--hostname-override`是节点名称，最好和主机名一一对应
--
+- `--cni-bin-dir` 指定cni的目录，使用默认即可。 一旦找不到cni的插件。`kubectl get node`会发现部署完网络插件之后节点却还一直都是`NotReady`
 
 ```
 mv kubelet.service /usr/lib/systemd/system/
@@ -98,3 +98,7 @@ scp /etc/kubernetes/kubelet.kubeconfig  10.10.10.7:/etc/kubernetes/
 
 
 ## 为master打上标签
+
+```
+/usr/local/bin/kubectl label node k8s-master01 node-role.kubernetes.io/master=k8s-master01
+```
