@@ -101,4 +101,13 @@ scp /etc/kubernetes/kubelet.kubeconfig  10.10.10.7:/etc/kubernetes/
 
 ```
 /usr/local/bin/kubectl label node k8s-master01 node-role.kubernetes.io/master=k8s-master01
+/usr/local/bin/kubectl label node k8s-node01 node-role.kubernetes.io/node=k8s-node01
+```
+
+## 注意
+
+这个部署，kubelet的启动有问题。 需要在系统起来之后执行
+```
+systemctl stop kubelet
+systemctl start kubelet
 ```
