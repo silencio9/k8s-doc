@@ -54,7 +54,7 @@ ExecStart=/usr/local/bin/kubelet  \
     --cert-dir=/etc/kubernetes/ssl   \
     --network-plugin=cni   \
     --cni-conf-dir=/etc/cni/net.d   \
-    --cni-bin-dir=/usr/local/bin/cni   \
+    --cni-bin-dir=/opt/cni/bin/cni   \
     --cluster-dns=10.96.0.2   \
     --cluster-domain=cluster.local.   \
     --hairpin-mode hairpin-veth   \
