@@ -81,6 +81,12 @@ systemctl start kubelet
 systemctl status kubelet
 ```
 
+其他节点
+```
+scp /etc/kubernetes/kubelet.kubeconfig  10.10.10.6:/etc/kubernetes/
+scp /etc/kubernetes/kubelet.kubeconfig  10.10.10.7:/etc/kubernetes/
+```
+
 # 到master节点执行
 ```
 /usr/local/bin/kubectl get csr

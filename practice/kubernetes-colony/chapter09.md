@@ -39,7 +39,7 @@ After=network.target
 WorkingDirectory=/var/lib/kube-proxy
 ExecStart=/usr/local/bin/kube-proxy   \
         --bind-address=0.0.0.0   \
-        --hostname-override=k8s-master01  
+        --hostname-override=k8s-master01  \
         --kubeconfig=/etc/kubernetes/kube-proxy.kubeconfig \
         --masquerade-all   \
         --feature-gates=SupportIPVSProxyMode=true   \
