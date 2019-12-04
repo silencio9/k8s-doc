@@ -3,7 +3,8 @@
 github  https://github.com/coredns/coredns  https://github.com/coredns/deployment/tree/master/kubernetes  
 
 ```
-wget https://raw.githubusercontent.com/coredns/deployment/master/kubernetes/coredns.yaml.sed -O coredns.yaml
+git clone https://github.com/coredns/deployment.git
+cd deployment/kubernetes
 
 ```
 - 需要修改clusterIP地址。  

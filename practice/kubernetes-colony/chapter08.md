@@ -83,8 +83,15 @@ systemctl status kubelet
 
 其他节点
 ```
-scp /etc/kubernetes/kubelet.kubeconfig  10.10.10.6:/etc/kubernetes/
-scp /etc/kubernetes/kubelet.kubeconfig  10.10.10.7:/etc/kubernetes/
+scp /etc/kubernetes/bootstrap.kubeconfig  10.10.10.6:/etc/kubernetes/
+scp /etc/kubernetes/bootstrap.kubeconfig  10.10.10.7:/etc/kubernetes/
+```
+
+注意：
+
+```
+kubelet 安装之后，使用systemctl start 的时候会报错， 说命令找不到
+重启服务器之后就好了
 ```
 
 # 到master节点执行
