@@ -264,3 +264,14 @@ kubeadm alpha certs renew -h
 # 替换所有证书
 kubeadm alpha certs renew all
 ```
+
+### 3. kubeadm join 对应的token过期
+
+```
+kubeadm token create --ttl 0
+# 或者直接创建
+kubeadm token create
+kubeadm token list
+```
+
+然后使用 `kubeadm join` 重新加入
