@@ -1,2 +1,82 @@
 # 利用helm部署
 https://rook.io/docs/rook/v1.1/helm-operator.html  
+
+```shell
+git clone https://github.com/rook/rook.git
+# 查看版本。然后切换分支。切换分支之后按照官方文档的方式进行部署
+git checkout release-1.1
+
+```
+
+**一下直接摘抄官网的**  
+
+## Ceph Storage快速入门
+本指南将引导您完成Ceph集群的基本设置，并使您能够使用集群中运行的其他Pod的块，对象和文件存储。
+
+### 最低版本
+
+Rook支持Kubernetes v1.10或更高版本。
+
+### 先决条件
+
+如果您要`dataDirHostPath`在kubernetes主机上持久保留rook数据，请确保您的主机在指定路径上至少有5GB的可用空间。
+
+如果您感到幸运，可以使用以下kubectl命令和示例yaml文件创建一个简单的Rook集群。有关更详细的安装，请跳至下一部分以部署Rook运算符。
+
+```
+cd cluster/examples/kubernetes/ceph
+kubectl create -f common.yaml
+kubectl create -f operator.yaml
+kubectl create -f cluster-test.yaml
+```
+
+集群运行后，您可以创建块，对象或文件存储，以供集群中的其他应用程序使用。
+
+**分割线**  
+到达此步骤已经可以见到基本情况，并且使用`toolbox`进行查看
+
+**分割线，以下摘抄官网**  
+[官方文档](https://rook.io/docs/rook/v1.1/ceph-toolbox.html)  
+Rook工具箱是一个容器，其中包含用于rook调试和测试的常用工具。该工具箱基于CentOS，因此可以使用轻松安装更多选择的工具yum。
+
+在Kubernetes中运行工具箱
+
+Rook工具箱可以作为Kubernetes集群中的部署运行。确保已部署rook的Kubernetes集群正在运行时（请参阅Kubernetes说明），启动rook-ceph-tools pod。
+
+将工具规范另存为[toolbox.yaml](/manifests/example/rook/toolbox.yaml)：
+
+```
+略，请点击链接查看
+```
+
+启动rook-ceph-tools pod：
+
+```
+kubectl create -f toolbox.yaml
+```
+
+等待工具箱窗格下载其容器并进入 `running` 状态：
+
+```shell
+kubectl -n rook-ceph get pod -l "app=rook-ceph-tools"
+```
+
+rook-ceph-tools pod运行后，您可以使用以下命令连接到它：
+```
+kubectl -n rook-ceph exec -it $(kubectl -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') bash
+```
+
+工具箱中的所有可用工具均已准备就绪，可满足您的故障排除需求。例：
+
+```
+ceph status
+ceph osd status
+ceph df
+rados df
+```
+
+使用完工具箱后，可以删除部署：
+
+```
+kubectl -n rook-ceph delete deployment rook-ceph-tools
+```

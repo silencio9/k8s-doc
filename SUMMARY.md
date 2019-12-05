@@ -30,6 +30,7 @@
       * [3.1 nfs](practice/storage/nfs/nfs.md)
     * [harbor](practice/harbor/README.md)
     * [gpu](pratice/nvidia/README.md)
+    * [rook-ceph](pratice/rook/ceph/README.md)
 * [八、kubernetes之集群资源管理]
     * [1. Node]
     * [2. Namespace]
