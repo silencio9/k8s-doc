@@ -15,7 +15,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - k8s01.example.yaml
+          - k8s01.example.com
   accessModes:
     - ReadWriteMany
   capacity:
