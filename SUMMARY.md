@@ -28,6 +28,8 @@
       * [2.1 配置文件的修改](practice/kubeadm-colony/chapter01.md)
     * [3. 创建存储](practice/storage/README.md)
       * [3.1 nfs](practice/storage/nfs/nfs.md)
+    * [harbor](practice/harbor/README.md)
+    * [gpu](pratice/nvidia/README.md)
 * [八、kubernetes之集群资源管理]
     * [1. Node]
     * [2. Namespace]
