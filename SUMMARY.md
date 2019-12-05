@@ -26,6 +26,8 @@
       * [1.11 其他组件部署](practice/kubernetes-colony/chapter11.md)
     * [2. kubeadm生产部署介绍](practice/kubeadm-colony/README.md)
       * [2.1 配置文件的修改](practice/kubeadm-colony/chapter01.md)
+    * [3. 创建存储](practice/storage/README.md)
+      * [3.1 nfs](practice/storage/nfs/nfs.md)
 * [八、kubernetes之集群资源管理]
     * [1. Node]
     * [2. Namespace]
