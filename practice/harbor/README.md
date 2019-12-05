@@ -18,3 +18,11 @@ git checkout chart-repository
 [jobservice-pv.yaml](/manifests/example/harbor/jobservice-pv.yaml)
 [database-pv.yaml](/manifests/example/harbor/database-pv.yaml)
 [redis-pv.yaml](/manifests/example/harbor/redis-pv.yaml)
+
+```
+mkdir -p /data/harbor/chartmuseum
+mkdir -p /data/harbor/registry
+mkdir -p /data/harbor/jobservice
+mkdir -p /data/harbor/database
+mkdir -p /data/harbor/redis
+```

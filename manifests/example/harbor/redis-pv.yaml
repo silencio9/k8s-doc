@@ -17,6 +17,6 @@ spec:
           values:
           - k8s01.example.com
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   capacity:
     storage: 5Gi
