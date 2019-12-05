@@ -8,12 +8,16 @@
 https://github.com/kubernetes/ingress-nginx/blob/master/docs/deploy/index.md
 
 https://kubernetes.github.io/ingress-nginx/deploy/#prerequisite-generic-deployment-command
-```
+
+复制内容 [mandatory.yaml](/manifests/example/ingress/mandatory.yaml)
+```shell
 git clone https://github.com/kubernetes/ingress-nginx.git
 # 或者直接去
 wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/mandatory.yaml
 kubectl apply -f mandatory.yaml
+# 增加nodeport的访问，不然外网访问不到
 wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/baremetal/service-nodeport.yaml
+
 kubectl apply -f service-nodeport.yaml
 # 可以改变部署方式，不使用deployment的方式，而是使用daemonset的方式不是，然后使用打污点的方式，只让ingress部署在指定机器上面
 
@@ -100,6 +104,7 @@ kubectl  exec -it -n ingress-nginx nginx-ingress-controller-568867bf56-vp8nj bas
 
 访问：
 使用域名的方式，就要使用域名的方式进行访问  
+因为有nodeport的访问。既需要加上端口号  
 直接使用backend的方式就是普通的跳转  
 ```
 echo 127.0.0.1 ingress.hankbook.com >> /etc/hosts

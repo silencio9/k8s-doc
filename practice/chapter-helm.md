@@ -43,7 +43,7 @@ helm install --name hank-redis  stable/redis
 # 缓存位置
 ～/.helm/cache/ # 对应的各种压缩包，tgz，解压即可
 # 删除release
-helm delete hank-redis
+helm delete --purge hank-redis
 # 创建一个模版
 helm create myapp
 # charts 介绍
