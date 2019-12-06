@@ -19,7 +19,7 @@ mv docker-compose-Linux-x86_64 /usr/bin/docker-compose
 
 上harbor的github下载离线包  
 https://github.com/goharbor/harbor  
-```
+```shell
 wget https://github.com/goharbor/harbor/releases/download/v1.9.3/harbor-offline-installer-v1.9.3.tgz
 tar xf harbor-offline-installer-v1.9.3.tgz
 cd harbor
@@ -31,4 +31,6 @@ sed -i 's#reg.mydomain.com#10.10.10.5#g' harbor.yml
 sed -i 's#data_volume: /data#data_volume: /data-data#g' harbor.yml
 # 修改数据库密码
 sed -i 's#root123#example#g' harbor.yml
+# 安装harbor
+./install.sh
 ```
