@@ -25,6 +25,7 @@ scp /etc/kubernetes/ssl/bootstrap-token.csv 10.10.10.6:/etc/kubernetes/ssl/
 scp /etc/kubernetes/ssl/bootstrap-token.csv 10.10.10.7:/etc/kubernetes/ssl/
 ```
 
+
 ## 创建访问用户
 参数`--bacis-auth-file`在16版本已经提示，将被移除
 ```shell
@@ -36,6 +37,10 @@ EOF
 mv basic-auth.csv /etc/kubernetes/ssl/
 mv /etc/kubernetes/ssl/basic-auth.csv 10.10.10.6:/etc/kubernetes/ssl/
 mv /etc/kubernetes/ssl/basic-auth.csv 10.10.10.7:/etc/kubernetes/ssl/
+```
+加了参数后测试
+```
+curl https://10.10.10.5:6443/apis/metrics.k8s.io/v1beta1/nodes -k --basic -u admin:admin
 ```
 
 ## 创建kube-apiserver.service

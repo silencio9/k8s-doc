@@ -15,6 +15,16 @@ useradd -s /sbin/nologin -M -u 1000 nfs
 ```
 
 # 创建pv
+创建pv的时候，需要确保被调度宿主机上面已经安装了nfs客户端  
+创建的实质就是在宿主机执行了
+```
+mount -t nfs 10.10.10.5:/data/data  /var/lib/kubelet/pods/7afed383-ef25-4c39-a5e5-62b459d0afc6/volumes/kubernetes.io~nfs/data
+```
+所以不符合nfs的方式都会挂载失败
+```
+yum install -y nfs-utils rpcbind
+```
+
 ```
 apiVersion: v1
 kind: PersistentVolume
@@ -36,7 +46,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: /data/data
+  name: data
 spec:
   accessModes:
     - ReadWriteMany
@@ -46,4 +56,27 @@ spec:
   selector:
     matchLabels:
       name: data
+```
+
+# 测试pod
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp01
+  labels:
+    app: web
+    env: prd
+spec:
+  volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: data
+  containers:
+  - name: webapp
+    image: hank997/webapp:v1
+    volumeMounts:
+      - name: data
+        mountPath: /data
 ```

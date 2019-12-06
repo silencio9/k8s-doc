@@ -14,7 +14,8 @@ kubectl apply -f nvidia-device-plugin.yml
 
 ```
 # 命令   标签  类型  类型对应的名称       key=value
-kubectl label node k8s01.example.com isgpu=true
+kubectl label node k8s01.example.com machine=gpu
+kubectl get nodes --show-labels
 ```
 
 **创建deployment的时候**  
