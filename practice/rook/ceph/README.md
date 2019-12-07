@@ -27,7 +27,10 @@ Rook支持Kubernetes v1.10或更高版本。
 cd cluster/examples/kubernetes/ceph
 kubectl create -f common.yaml
 kubectl create -f operator.yaml
+# cluster测试就使用下面的yaml
 kubectl create -f cluster-test.yaml
+# 正式环境使用
+kubectl create -f cluster.yaml
 ```
 
 集群运行后，您可以创建块，对象或文件存储，以供集群中的其他应用程序使用。
@@ -79,4 +82,19 @@ rados df
 
 ```
 kubectl -n rook-ceph delete deployment rook-ceph-tools
+```
+
+### 网页请求
+进入到`cluster`
+```
+cd cluster/examples/kubernetes/ceph
+kubectl apply -f dashboard-external-https.yaml
+# 查看端口号。也可以自定义好端口号
+kubectl get svc -n rook-ceph | grep rook-ceph-mgr-dashboard-external-https
+```
+然后使用火狐浏览器进行打开。使用其他浏览器还需要自行配置  
+https://10.10.10.5:32231
+```
+# 获取密码
+kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o yaml | grep "password:" | awk '{print $2}' | base64 --decode
 ```
