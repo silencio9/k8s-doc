@@ -30,15 +30,30 @@
     "local-video",
     "include",
     "favicon",
-    "anchors"
+    "anchors",
+    "donate",
+    "tbfed-pagefooter"
   ],
   "pluginsConfig": {
+        "donate": {
+        "wechat": "/images/collection/weixin.jpg",
+        "alipay": "/images/collection/alipay.jpg",
+        "title": "",
+        "button": "赏",
+        "alipayText": "支付宝打赏",
+        "wechatText": "微信打赏"
+    },
+    "tbfed-pagefooter": {
+    "copyright":"Copyright &copy hankbook.cn 2020",
+    "modify_label": "该文件修订时间：",
+    "modify_format": "YYYY-MM-DD HH:mm:ss"
+    },
     "search-pro": {
         "cutWordLib": "nodejieba",
         "defineWord" : ["Gitbook Use"]
     },
     "3-ba": {
-           "token": "5acb80dbfab84cdf5a7d41a8b3581049"
+           "token": "35a3dc50ac43bd0535249819c68a2f78"
        },
   "sharing": {
       "weibo": true,
