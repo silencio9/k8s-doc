@@ -4,7 +4,7 @@
 
 部署nfs按照[nfs](/practice/storage/nfs/nfs.md)进行部署服务端
 
-克隆代码下来，并且修改[deployment](/manifests/example/nfs-storageclass/client/deployment.yaml)  
+克隆代码下来，并且修改  
 
 ```shell
 git clone git clone https://github.com/kubernetes-incubator/external-storage.git
@@ -29,3 +29,9 @@ kubectl apply -f test-claim.yaml
 sed -i 's#gcr.io/google_containers/busybox:1.24#busybox#g' test-pod.yaml
 kubectl apply -f test-pod.yaml
 ```
+
+[deployment](/manifests/example/nfs-storageclass/client/deployment.yaml)  
+[class](/manifests/example/nfs-storageclass/client/class.yaml)  
+[rbac](/manifests/example/nfs-storageclass/client/rabc.yaml)  
+[test-claim](/manifests/example/nfs-storageclass/client/test-claim.yaml)  
+[test-pod](/manifests/example/nfs-storageclass/client/test-pod.yaml)  
