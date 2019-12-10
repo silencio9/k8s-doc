@@ -109,6 +109,23 @@ kubelet 安装之后，使用systemctl start 的时候会报错， 说命令找�
 ```
 /usr/local/bin/kubectl label node k8s-master01 node-role.kubernetes.io/master=k8s-master01
 /usr/local/bin/kubectl label node k8s-node01 node-role.kubernetes.io/node=k8s-node01
+kubectl get node --show-labels
+# 删除所有节点的标签
+kubectl  label node --all kubernetes.io/role-
+```
+
+如果不让调度
+
+```shell
+kubectl  patch node 10.10.10.5 -p '{"spec":{"unschedulable":true}}'
+# 相对应的
+kubectl  patch node 10.10.10.5 -p '{"spec":{"unschedulable":false}}'
+```
+查看,出现SchedulingDisabled
+```shell
+[root@demo ansible]# kubectl  get node
+NAME            STATUS                     ROLES    AGE   VERSION
+10.10.10.5   Ready,SchedulingDisabled   master   78m   v1.16.2
 ```
 
 ## 注意
