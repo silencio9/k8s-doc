@@ -17,7 +17,7 @@
   * [4.持久化存储](storage/persistent-volume.md)
   * [4.动态持久化存储](storage/storageclass.md)
   * [4.本地存储](storage/local-persistent-storage.md)
-* [七、kubernetes之集群资源管理]
+* [七、kubernetes之集群资源管理](cluster-resources/README.md)
   * [1. Node]
   * [2. Namespace]
   * [3. Label]
