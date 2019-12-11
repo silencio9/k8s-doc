@@ -40,11 +40,11 @@ kubectl create -f cluster.yaml
 
 **分割线，以下摘抄官网**  
 [官方文档](https://rook.io/docs/rook/v1.1/ceph-toolbox.html)  
-Rook工具箱是一个容器，其中包含用于rook调试和测试的常用工具。该工具箱基于CentOS，因此可以使用轻松安装更多选择的工具yum。
+Rook工具箱是一个容器，其中包含用于rook调试和测试的常用工具。该工具箱基于`CentOS`，因此可以使用轻松安装更多选择的工具`yum`。
 
-在Kubernetes中运行工具箱
+在`Kubernetes`中运行工具箱
 
-Rook工具箱可以作为Kubernetes集群中的部署运行。确保已部署rook的Kubernetes集群正在运行时（请参阅Kubernetes说明），启动rook-ceph-tools pod。
+Rook工具箱可以作为Kubernetes集群中的部署运行。确保已部署`rook`的`Kubernetes`集群正在运行时（请参阅Kubernetes说明），启动`rook-ceph-tools` `pod`。
 
 将工具规范另存为[toolbox.yaml](/manifests/example/rook/toolbox.yaml)：
 
@@ -52,7 +52,7 @@ Rook工具箱可以作为Kubernetes集群中的部署运行。确保已部署roo
 略，请点击链接查看
 ```
 
-启动rook-ceph-tools pod：
+启动`rook-ceph-tools` `pod`：
 
 ```
 kubectl create -f toolbox.yaml
@@ -64,7 +64,7 @@ kubectl create -f toolbox.yaml
 kubectl -n rook-ceph get pod -l "app=rook-ceph-tools"
 ```
 
-rook-ceph-tools pod运行后，您可以使用以下命令连接到它：
+`rook-ceph-tools` `pod`运行后，您可以使用以下命令连接到它：
 ```
 kubectl -n rook-ceph exec -it $(kubectl -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') bash
 ```
@@ -98,3 +98,11 @@ https://10.10.10.5:32231
 # 获取密码
 kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o yaml | grep "password:" | awk '{print $2}' | base64 --decode
 ```
+
+### 默认存储地方
+
+```
+cat cluster.yaml
+```
+可以看到 `dataDirHostPath: /var/lib/rook` 字段  
+可以根据自己的需求进行修改
