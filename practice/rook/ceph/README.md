@@ -106,3 +106,12 @@ cat cluster.yaml
 ```
 可以看到 `dataDirHostPath: /var/lib/rook` 字段  
 可以根据自己的需求进行修改
+
+### 测试
+搭建一个`wordpress`
+
+```
+cd cluster/examples/kubernetes
+kubectl apply -f mysql.yaml
+kubectl apply -f wordpress.yaml
+```
