@@ -110,3 +110,31 @@ kubectl  exec -it -n ingress-nginx nginx-ingress-controller-568867bf56-vp8nj bas
 echo 127.0.0.1 ingress.hankbook.com >> /etc/hosts
 curl ingress.hankbook.com:32234
 ```
+
+## 配置转发规则
+
+```
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-web
+  labels:
+    name: ingress-web
+    app: web
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+  - host: ingress.hankbook.com
+    http:
+      paths:
+      - path: /v1(/|$)(.*)
+        backend:
+          serviceName: hank-web-service
+          servicePort: 80
+      - path: /v2(/|$)(.*)
+        backend:
+          serviceName: hank-web-service2
+          servicePort: 80
+```
