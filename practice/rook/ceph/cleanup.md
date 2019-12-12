@@ -50,6 +50,7 @@ kubectl delete -f common.yaml
 
 `Rook for osds`使用的节点上的磁盘可以通过以下方法重置为可用状态：
 
+***此处请不要乱执行，sgdisk --zap-all是删除所有分区的意思***
 ```shell
 #!/usr/bin/env bash
 DISK="/dev/sdb"
@@ -96,3 +97,61 @@ kubectl -n rook-ceph patch crd cephclusters.ceph.rook.io --type merge -p '{"meta
 ```
 
 在几秒钟内，您应该看到群集CRD已被删除，并且将不再阻止其他清理操作，例如删除rook-ceph名称空间。
+
+
+# faq
+
+错误信息
+
+```
+debug 2019-12-12 03:24:27.347 7f3d2c10edc0  0 set uid:gid to 167:167 (ceph:ceph)
+debug 2019-12-12 03:24:27.347 7f3d2c10edc0  0 ceph version 14.2.4 (75f4de193b3ea58512f204623e6c5a16e6c1e1ba) nautilus (stable), process ceph-osd, pid 5004
+debug 2019-12-12 03:24:27.347 7f3d2c10edc0  0 pidfile_write: ignore empty --pid-file
+debug 2019-12-12 03:24:27.368 7f3d2c10edc0 -1 missing 'type' file and unable to infer osd type
+```
+
+删除后，重新安装上会出现`osd`的pod起不来。解决方案如下
+
+[参考文档](https://gist.github.com/cheethoe/49d9c1d0003e44423e54a060e0b3fbf1)  
+此文档或者需要科学上网
+
+原文：
+```
+# This will use osd.5 as an example
+# ceph commands are expected to be run in the rook-toolbox
+1) disk fails
+2) remove disk from node
+3) mark out osd. `ceph osd out osd.5`
+4) remove from crush map. `ceph osd crush remove osd.5`
+5) delete caps. `ceph auth del osd.5`
+6) remove osd. `ceph osd rm osd.5`
+7) delete the deployment `kubectl delete deployment -n rook-ceph rook-ceph-osd-id-5`
+8) delete osd data dir on node `rm -rf /var/lib/rook/osd5`
+9) edit the osd configmap `kubectl edit configmap -n rook-ceph rook-ceph-osd-nodename-config`
+9a) edit out the config section pertaining to your osd id and underlying device.
+10) add new disk and verify node sees it.
+11) restart the rook-operator pod by deleting the rook-operator pod
+12) osd prepare pods run
+13) new rook-ceph-osd-id-5 will be created
+14) check health of your cluster `ceph -s; ceph osd tree`
+```
+翻译后(经过测试)：
+```
+＃这将以osd.5为例
+＃ceph命令应该在rook-toolbox中运行
+1）磁盘出现故障
+2）从节点中删除磁盘
+3）标出osd。 `ceph osd out osd.5`
+4）从crush map中删除。 `ceph osd crush remove osd.5`
+5）删除caps `ceph auth del osd.5`
+6）删除osd。 `ceph osd rm osd.5`
+7）删除部署`kubectl delete deploy -n rook-ceph rook-ceph-osd-id-5`
+8）删除节点rm -rf /var/lib/rook/osd5`上的osd数据目录
+9）编辑osd configmap `kubectl edit configmap -n rook-ceph rook-ceph-osd-nodename-config`
+9a）编辑与您的OSD ID和基础设备有关的config部分。
+10）添加新磁盘并验证节点是否可见。
+11）通过删除rook-operator pod重新启动rook-operator pod
+12）OSD准备Pod运行
+13）将创建新的rook-ceph-osd-id-5
+14）检查集群将康状态`ceph -s; ceph osd tree`
+```
