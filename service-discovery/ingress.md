@@ -112,7 +112,7 @@ curl ingress.hankbook.com:32234
 ```
 
 ## 配置转发规则
-
+https://kubernetes.github.io/ingress-nginx/examples/rewrite/
 ```
 apiVersion: extensions/v1beta1
 kind: Ingress
