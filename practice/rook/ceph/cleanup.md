@@ -135,7 +135,7 @@ debug 2019-12-12 03:24:27.368 7f3d2c10edc0 -1 missing 'type' file and unable to 
 13) new rook-ceph-osd-id-5 will be created
 14) check health of your cluster `ceph -s; ceph osd tree`
 ```
-翻译后(经过测试)：
+翻译后(经过测试没成功)：
 ```
 ＃这将以osd.5为例
 ＃ceph命令应该在rook-toolbox中运行
@@ -155,3 +155,11 @@ debug 2019-12-12 03:24:27.368 7f3d2c10edc0 -1 missing 'type' file and unable to 
 13）将创建新的rook-ceph-osd-id-5
 14）检查集群将康状态`ceph -s; ceph osd tree`
 ```
+
+------
+
+自己修改并且启动
+
+因为`osd`对磁盘类型，等一系列的选型问题。所以导致的创建失败。  
+所以需要修改`cluster.yaml`的`useAllDevices: `值改成`true`重新创建即可  
+[参考文档](https://rook.io/docs/rook/v1.1/ceph-common-issues.html#osd-pods-are-not-created-on-my-devices)  
