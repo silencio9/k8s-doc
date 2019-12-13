@@ -16,3 +16,10 @@ git clone https://github.com/kubernetes/kubernetes.git
 cd cluster/addons/
 kubectl -f ./metrics-server/
 ```
+下面的请求使用的是basic的方式进行请求，如有必要修改成token或者密钥即可
+```
+# node
+curl https://kubernetes.default.svc.cluster.local:6443/apis/metrics.k8s.io/v1beta1/nodes -k --basic -u admin:admin
+# pod
+curl https://kubernetes.default.svc.cluster.local:6443/apis/metrics.k8s.io/v1beta1/pod -k --basic -u admin:admin
+```
