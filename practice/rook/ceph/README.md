@@ -106,7 +106,7 @@ kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o yaml | grep "pas
 ```
 cat cluster.yaml
 ```
-可以看到 `dataDirHostPath: /var/lib/rook` 字段  
+可以看到 `dataDirHostPath: /var/lib/rook` 字段还有`spec.storage.directories.path`也需要修改成一样的  
 可以根据自己的需求进行修改
 
 ### 测试
