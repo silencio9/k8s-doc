@@ -35,7 +35,7 @@ metadata:
 spec:
   nfs:
     path: /data/data
-    server: k8s01.extremevision.com.cn
+    server: 10.10.10.5
   accessModes:
     - ReadWriteMany
   capacity:
@@ -79,4 +79,20 @@ spec:
     volumeMounts:
       - name: data
         mountPath: /data
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-pod
+spec:
+  containers:
+  - name: device-container
+    image: hank997/webapp:v1
+    volumeMounts:
+    - name: test-deivce
+      mountPath: /data
+  volumes:
+  - name: test-deivce
+    persistentVolumeClaim:
+      claimName: hank-jenkins
 ```

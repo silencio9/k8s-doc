@@ -22,3 +22,20 @@ spec:
   resources:
     requests:
       storage: 20Gi
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-pod
+spec:
+  containers:
+  - name: device-container
+    image: hank997/webapp:v1
+    volumeMounts:
+    - name: test-deivce
+      mountPath: /data
+  volumes:
+  - name: test-deivce
+    persistentVolumeClaim:
+      claimName: hank-jenkins
