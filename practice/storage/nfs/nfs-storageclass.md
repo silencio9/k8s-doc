@@ -7,7 +7,7 @@
 克隆代码下来，并且修改  
 
 ```shell
-git clone git clone https://github.com/kubernetes-incubator/external-storage.git
+git clone https://github.com/kubernetes-incubator/external-storage.git
 cd external-storage/nfs-client/deploy/
 # 替换nfs服务端地址
 sed -i 's#10.10.10.60#10.10.10.5#g' deployment.yaml

@@ -21,3 +21,5 @@ kubectl apply -f coredns.yaml
 # helm
 
 # metrics
+
+# kuboard
