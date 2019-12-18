@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hankbook
+  labels:
+    name: hankbook
+    app: web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: hankbook
+      app: web
+  template:
+    metadata:
+      labels:
+        name: hankbook
+        app: web
+    spec:
+      containers:
+      - name: hankbook
+        image: hank997/hankbook:v1
