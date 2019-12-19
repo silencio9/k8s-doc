@@ -177,7 +177,7 @@ calico
 网址 https://docs.projectcalico.org/master/getting-started/kubernetes/installation/calico  
 注意版本的对应关系
 
-还需要注意cidr的IP网段去pod一样
+还需要注意cidr的IP网段去pod一样,请有手动修改`620`行左右的位置，一旦这个跟`pod_dir`不一致的话，就会导致pod的网络有问题，访问不了局域网
 
 ### 4. node加入
 
