@@ -12,3 +12,7 @@ jenkins参考文档 https://www.jianshu.com/p/57977e69613f
 
 # ansible部署
 https://github.com/easzlab/kubeasz
+
+
+官方api地址。可以根据版本号修改url进行访问查询  
+https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.15  
