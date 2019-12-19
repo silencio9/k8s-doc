@@ -37,4 +37,5 @@ spec:
       name: sshd
       nodePort: 30088
   selector:
-    app: hankbook
+    name: hankbook
+    app: web

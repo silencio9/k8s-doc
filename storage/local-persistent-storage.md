@@ -10,3 +10,7 @@ nodeAffinity:
         values:
         - 10.10.10.5
 ```
+
+挂载文件，首先先在宿主机创建好文件，然后进行创建。
+
+`hostpath`和`nfs`的`capacity`无法限制`pv`大小。  

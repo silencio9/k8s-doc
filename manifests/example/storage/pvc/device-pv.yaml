@@ -8,7 +8,7 @@ spec:
   volumeMode: Block
   accessModes:
     - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Recycle
+  persistentVolumeReclaimPolicy: Retain
   local:
     path: /dev/sda
     fsType: xfs
