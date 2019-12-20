@@ -140,6 +140,9 @@ cat cluster.yaml
 
 ```
 cd cluster/examples/kubernetes
+# 创建storageclass
+ceph/csi/rbd/storageclass.yaml
 kubectl apply -f mysql.yaml
+# 请记住修改service为nodeport。
 kubectl apply -f wordpress.yaml
 ```
