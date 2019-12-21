@@ -47,6 +47,7 @@
   * [英伟达GPU插件](practice/nvidia/README.md)
   * [rook](practice/rook/README.md)
     * [rook-ceph](practice/rook/ceph/README.md)
+      * [部署](practice/rook/ceph/deployment.md)
       * [rook-cleanup](practice/rook/ceph/cleanup.md)
   * [持续继承](practice/cicd/README.md)
   * [监控](practice/monitor/README.md)

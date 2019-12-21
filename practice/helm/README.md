@@ -14,13 +14,20 @@ github仓库： https://github.com/helm/charts/tree/master/stable
 ## 部署
 https://github.com/helm/helm/releases 到这里下载helm客户端程序  
 
+[rbac](manifests/helm/rbac.yaml)  
+先下载rbac的进行创建  
+不使用rbac的话，`helm ls`会报错  
+```
+kubectl apply -f rbac.yaml
+```
+
 ```shell
 wget https://get.helm.sh/helm-v2.16.0-linux-amd64.tar.gz
 tar xf helm-v2.16.0-linux-amd64.tar.gz
 mv linux-amd64/helm /usr/bin/
-helm init
+helm init --service-account=tiller
 # 替换helm源,国内源不轻易使用，仓库更新慢
-#ehlm repo add stable https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
+#helm repo add stable https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
 # 更新源
 helm repo update
 # 二进制安装的k8s 需要自行安装socat
