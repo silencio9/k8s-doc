@@ -14,4 +14,4 @@ spec:
       - path:
         backend:
           serviceName: hank-jupyterlab01-svc
-          servicePort: 80
+          servicePort: 8888
