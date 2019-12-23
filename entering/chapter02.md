@@ -15,7 +15,7 @@ github地址： [点击此处](https://github.com/kubernetes/kubeadm)
 4. 小写的主机名
 5. Swap disabled.
 6. 充足的硬盘空间
-
+url = https://github.com/AgoCan/dockerfile.git
 ***虚拟机部署的时候最好把内存调高一点，不然会把物理机的cpu给撑到100%***
 
 |节点|ip地址|节点角色|

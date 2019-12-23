@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-jupyter
+  labels:
+    name: ingress-jupyter
+    app: jupyter
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - http:
+      paths:
+      - path:
+        backend:
+          serviceName: hank-jupyterlab01-svc
+          servicePort: 80
