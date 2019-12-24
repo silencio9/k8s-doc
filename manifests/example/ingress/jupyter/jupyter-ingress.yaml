@@ -11,7 +11,8 @@ spec:
   rules:
   - http:
       paths:
-      - path: /jupyter
+      - path: /jupyter/
         backend:
           serviceName: hank-jupyterlab01-svc
-          servicePort: 8888
+          servicePort: 80
+# 此ingress访问的时候需要在最后加上/ 不然出现跳转会把端口号直接去掉（暂时测试如此）
