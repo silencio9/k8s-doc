@@ -24,3 +24,9 @@ kubectl  explain deployment.spec.template.spec.nodeSelector
 ```
 
 或者使用污点的方式进行区别部署
+
+
+orion: 虚拟化gpu
+
+https://github.com/virtaitech/orion
+https://virtai.tech

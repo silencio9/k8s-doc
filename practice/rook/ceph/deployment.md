@@ -15,6 +15,8 @@ k8s三个节点：
 
 ```yaml
 # 案例介绍
+# 其中bluestore是直接使用裸磁盘的意思，会加打磁盘的效率
+# filestore
 nodes:
 - name: "master001"
   devices:
