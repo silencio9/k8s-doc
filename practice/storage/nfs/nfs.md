@@ -96,3 +96,25 @@ spec:
     persistentVolumeClaim:
       claimName: hank-jenkins
 ```
+
+# 问题
+一旦设置了其他方式的storageclass为default。那么PVC和pv的对应关系就会找不到。可以指定
+`storageClassName: ""`,该值设置为空即可  
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ev-dataset
+  annotations:
+    volume.beta.kubernetes.io/storage-class: ""
+spec:
+  storageClassName: ""
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Ti
+  selector:
+    matchLabels:
+      name: ev-dataset
+```
