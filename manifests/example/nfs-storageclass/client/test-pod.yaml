@@ -1,16 +1,3 @@
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: test-claim
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "managed-nfs-storage"
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Mi
-[root@k8s01 deploy]# cat test-pod.yaml
 kind: Pod
 apiVersion: v1
 metadata:
