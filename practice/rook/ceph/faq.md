@@ -15,3 +15,7 @@ https://github.com/rook/rook/issues/4093
 暂无解决方案
 
 https://github.com/rook/rook/issues/4547
+
+[点击查看(暂时未解决)](/practice/rook/ceph/faq-restart-node.md)
+
+事故发生地是使用`bluestore`的方式，使用了裸磁盘的方式
