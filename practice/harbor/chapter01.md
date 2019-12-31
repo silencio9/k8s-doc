@@ -25,7 +25,7 @@ tar xf harbor-offline-installer-v1.9.3.tgz
 cd harbor
 # 修改harbor密码
 sed -i 's#Harbor12345#example#g' harbor.yml
-# 修改域名
+# 修改域名，修改域名需要注意，端口号无论是否修改， 域名都不带端口号，不然docker login 会出现no such host
 sed -i 's#reg.mydomain.com#10.10.10.5#g' harbor.yml
 # 修改数据地址
 sed -i 's#data_volume: /data#data_volume: /data-data#g' harbor.yml
