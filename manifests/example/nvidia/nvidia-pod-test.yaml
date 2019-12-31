@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-pod
+spec:
+  containers:
+  - name: device-container
+    image: hank997/webapp:v1
+    resource:
+      requests:
+        cpu: 1
+        nvidia/gpu: 1
+        mem: 256Mi
+      limits:
+        cpu: 1
+        nvidia/gpu: 1
+        mem: 256Mi

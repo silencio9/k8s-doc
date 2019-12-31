@@ -10,6 +10,11 @@ wget https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta4/nvid
 kubectl apply -f nvidia-device-plugin.yml
 ```
 [nvidia-device-plugin.yml](/manifests/example/nvidia/nvidia.yaml)  
+
+测试pod
+
+[nvidia-pod-test.yaml](/manifests/example/nvidia/nvidia-pod-test.yaml)  
+
 **给服务器打上标签**  
 
 ```
