@@ -63,7 +63,7 @@ adminPassword: admin  # 228行，此处测试，既使用简单密码
 
 ```
 以下可以不需要配置，如有配置还需要加上模板,此模版已不能使用[grafana-dashboards.yaml](/manifests/example/prometheus/grafana-dashboards.yaml)   
-下载地址 https://grafana.com/grafana/dashboards/8588  
+下载地址模板地址，推荐使用`json`导入 https://grafana.com/grafana/dashboards/8588  
 ```yaml
 #
 # 294行，它是{}  请把花括号给删除
