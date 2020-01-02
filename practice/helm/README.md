@@ -35,6 +35,8 @@ yum install socat -y
 # 所有机器执行拉取镜像操作
 docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.16.0
 docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.16.0 gcr.io/kubernetes-helm/tiller:v2.16.0
+docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.16.0
+# helm init --service-account tiller --upgrade -i registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.16.0 --stable-repo-url https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
 # 测试
 helm search stable/jenkins
 # 查看使用帮助
@@ -57,4 +59,8 @@ helm create myapp
 # https://helm.sh/docs/developing_charts/#charts
 # 查看pvc的创建
 #url: /part06/extre01.md
+# 安装失败的话 删除加目录的.helm
+rm -rf /root/.helm
+# 并且有tiller的话，删掉tiller
+kubectl delete deploy -n kube-system tiller-deploy
 ```
