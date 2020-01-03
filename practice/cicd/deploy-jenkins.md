@@ -33,6 +33,11 @@ serviceType: NodePort
 ```
 helm install --name jenkins --namespace devops-ns stable/jenkins
 ```
+打印密码
+```
+printf $(kubectl get secret --namespace devops-ns jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo
+```
+
 删除
 
 ```

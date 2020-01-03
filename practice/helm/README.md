@@ -63,4 +63,7 @@ helm create myapp
 rm -rf /root/.helm
 # 并且有tiller的话，删掉tiller
 kubectl delete deploy -n kube-system tiller-deploy
+
+# 更新，更新的时候如果使用了配置文件。还需要继续使用配置文件进行更新。
+helm upgrade
 ```
