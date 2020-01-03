@@ -1,5 +1,6 @@
-# 部署普罗米修斯  
-## `helm`部署方式   
+# `helm`部署方式  
+## 部署普罗米修斯  
+
 前提部署好[helm](practice/helm/README.md)
 
 ```
@@ -46,7 +47,7 @@ helm install --name prometheus --namespace prometheus-ns stable/prometheus
 helm del prometheus --purge
 ```
 
-# 部署grafana
+## 部署grafana
 前提部署好`helm`
 ```
 # 修改values.yaml
