@@ -130,8 +130,24 @@ NAME            STATUS                     ROLES    AGE   VERSION
 
 ## 注意
 
-这个部署，kubelet的启动有问题。 需要在系统起来之后执行
+1. 这个部署，`kubelet`的启动有问题。 需要在系统起来之后执行
+  ```
+  systemctl stop kubelet
+  systemctl start kubelet
+  ```
+
+2. `bubelet`加入节点后，会在加目录加入 `.kube`的目录，该目录是cni的主要目录，不能丢失，不然创建容器会出现如下的错误
+
 ```
-systemctl stop kubelet
-systemctl start kubelet
+Events:
+  Type     Reason                  Age                    From                   Message
+  ----     ------                  ----                   ----                   -------
+  Normal   Scheduled               <unknown>              default-scheduler      Successfully assigned profession-cvmart-project/profession-cvmart-project-1-instance-1-train-11-b5kjg to 192.168.1.80
+  Warning  FailedCreatePodSandBox  6m2s                   kubelet, 192.168.1.80  Failed create pod sandbox: rpc error: code = Unknown desc = failed to set up sandbox container "d75ef828dbc4ec744684d5973a7cb05ef73f8aab1920b661887321069d9194d2" network for pod "profession-cvmart-project-1-instance-1-train-11-b5kjg": networkPlugin cni failed to set up pod "profession-cvmart-project-1-instance-1-train-11-b5kjg_profession-cvmart-project" network: stat /root/.kube/config: no such file or directory
+```
+
+修复：
+
+```
+拿其他的节点的.kube 目录scp过来即可。
 ```
