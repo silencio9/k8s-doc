@@ -60,3 +60,4 @@
     * [手动部署](practice/mysql/manual.md)
   * [gitlab](practice/gitlab/README.md)
     * [部署](deploy-gitlab.md)
+  
