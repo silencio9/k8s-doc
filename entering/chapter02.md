@@ -139,6 +139,7 @@ kubeadm config images list
 ```
 如何直接修改库文件可以查看文末  
 ```shell
+systemctl start docker
 # 拉取镜像（all）
 docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1.15.2
 docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.15.2
@@ -166,6 +167,8 @@ kubeadm init --kubernetes-version=v1.15.2 --pod-network-cidr=10.244.0.0/16 \
 
 # 查看是否健康
 kubectl  get componentstatus
+# 去掉master污点，测试使用
+kubectl taint nodes --all node-role.kubernetes.io/master-
 ```
 部署flannel 网络组建  
 github地址: https://github.com/coreos/flannel  
