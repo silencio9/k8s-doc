@@ -18,7 +18,7 @@
   * [4.动态持久化存储](storage/storageclass.md)
   * [4.本地存储](storage/local-persistent-storage.md)
 * [七、kubernetes之集群资源管理](cluster-resources/README.md)
-  * [1. Node]
+  * [1. Node](cluster-resources/nodes.md)
   * [2. Namespace]
   * [3. Label]
   * [4. Annotation]
@@ -60,4 +60,3 @@
     * [手动部署](practice/mysql/manual.md)
   * [gitlab](practice/gitlab/README.md)
     * [部署](deploy-gitlab.md)
-  
