@@ -2,7 +2,7 @@
 **暂时未测试通过**
 
 官方文档：https://docs.gitlab.com/charts/
-
+官方git: https://gitlab.com/gitlab-org/charts/gitlab
 前提部署好`helm`
 
 ```
