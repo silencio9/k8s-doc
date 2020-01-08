@@ -175,3 +175,47 @@ kubectl cordon $NODENAME
 
 ### API Object (API对象)
 [参考文档](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#node-v1-core)
+
+
+# Master-Node Communication （master节点通信）
+
+本文档对主服务器（实际上是`apiserver`）与`Kubernetes`集群之间的通信路径进行了分类。目的是允许用户自定义其安装以加强网络配置，以便可以在不受信任的网络（或云提供商的完全公共IP）上运行群集。
+
+## Cluster to Master (集群到主节点)
+从群集到主机的所有通信路径都在`apiserver`处终止（其他主机组件均未设计为公开远程服务）。在典型部署中，将`apiserver`配置为侦听启用了一种或多种形式的客户端身份验证的安全`HTTPS`端口（`443`）上的远程连接。 应该启用一种或多种形式的授权，尤其是 在允许匿名请求 或服务帐户令牌的情况下。
+
+应该为节点配置群集的公共根证书，以便它们可以与有效的客户端凭据一起安全地连接到`apiserver`。例如，在默认的`GKE`部署中，提供给`kubelet`的客户端凭据采用客户端证书的形式。
+
+希望连接到`apiserver`的`Pod`可以通过利用服务帐户来安全地这样做，以便`Kubernetes`在实例化`Pod`时会自动将公共根证书和有效的承载令牌注入`Pod`。该`kubernetes`服务（在所有名称空间中）都配置有虚拟IP地址，该地址被重定向（通过`kube-proxy`）到`apiserver`上的`HTTPS`端点。
+
+主组件还通过安全端口与群集`apiserver`通信。
+
+因此，默认情况下，从群集（节点和节点上运行的`Pod`）到主机的连接的默认操作模式是受保护的，并且可以在不受信任和/或公共网络上运行。
+
+## Master to Cluster （主节点到集群）
+
+从主服务器（`apiserver`）到群集有两条主要通信路径。第一个是从`apiserver`到在集群中每个节点上运行的kubelet进程。第二个是通过`apiserver`的代理功能从`apiserver`到任何节点，`pod`或服务。
+
+`apiserver`到`kubelet`
+
+从`apiserver`到`kubelet`的连接用于：
+
+- 获取`pods`的日志
+- (通过kubelet)附加到运行`pods`
+- 提供`kubelet`的端口转发功能。
+
+这些连接在`kubelet`的`HTTPS`端点处终止。默认情况下，`API`服务器不验证`kubelet`的服务证书，这使得连接受到人在这方面的中间人攻击， 不安全的跑过来不可信和/或公共网络。
+
+要验证此连接，请使用该`--kubelet-certificate-authority`标志为`apiserver`提供根证书捆绑包，以用于验证`kubelet`的服务证书。
+
+如果无法做到 这一点，请根据需要在`apiserver`和`kubelet`之间使用`SSH`隧道，以避免通过不可信或公共网络进行连接。
+
+最后， 应该启用`Kubelet`身份验证和/或授权以保护`kubelet API`。
+
+## apiserver to nodes, pods, and services (apiserver到节点，pod和服务)
+从`apiserver`到节点，`pod`或服务的连接默认为纯`HTTP`连接，因此未经身份验证或加密。可以通过`https:`在`API URL`中添加节点，`pod`或服务名称的前缀来在安全的`HTTPS`连接上运行它们，但是它们将不会验证`HTTPS`端点提供的证书，也不会提供客户端凭据，因此在对连接进行加密的同时，不会提供任何完整性保证。这些连接当前在通过不可信和/或公共网络运行时并不安全。
+
+## SSH Tunnels (SSH隧道)
+`Kubernetes`支持SSH隧道来保护`Master-> Cluster`通信路径。在此配置中，`apiserver`启动到群集中每个节点的`SSH`隧道（连接到侦听端口`22`的`ssh`服务器），并通过隧道传递发往`kubelet`，`node`，`pod`或`service`的所有流量。该隧道确保流量不会暴露在运行节点的网络外部。
+
+`SSH`隧道目前已被弃用，因此除非您知道自己在做什么，否则不应该选择使用它们。正在设计此通信通道的替代产品。
