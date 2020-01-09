@@ -46,6 +46,8 @@ export PATH=/usr/local/bin:$PATH
 ```
 
 ### 创建ca证书
+自用证书： https://freessl.cn/  
+
 字段说明
 
 ca-config.json：可以定义多个 profiles，分别指定不同的过期时间、使用场景等参数；后续在签名证书时使用某个 profile；  
