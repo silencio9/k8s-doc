@@ -2,7 +2,7 @@
 
 该镜像多了个`sudo`免密的功能和部署了`node`客户端
 ```
-docker run -itd --restart always -p 8080:8080 -v /data/hank-jenkins:/var/jenkins_home -v /usr/bin/docker:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock hank997/jenkins:2.60.3
+docker run -itd --restart always -p 8080:8080 -v /data/hank-jenkins:/var/jenkins_home -v /usr/bin/docker:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock hank997/jenkins:2019.10.24
 ```
 
 咱们过这种方案，接下来使用`helm`的方式进行部署
@@ -55,8 +55,14 @@ helm del jenkins --purge
     - credentials-binding:1.20
     - git:4.0.0
 ```
+`kubernetes cli` 插件的使用  
+https://wiki.jenkins.io/display/JENKINS/Kubernetes+CLI+Plugin  
+https://plugins.jenkins.io/kubernetes-cli  
 
 `ingress`的`hostname`，可以不配置
+
+
+
 ```yaml
 ingress:
   hostName: jenkins.example.com

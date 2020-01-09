@@ -10,7 +10,8 @@ podTemplate(label: label, containers: [
   containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat')
 ],
 volumes: [
-  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')，
+  hostPathVolume(mountPath: '/opt/kube/bin/docker', hostPath: '/usr/bin/docker'),
 ]) {
   node(label) {
     stage('Get a Maven Project') {
@@ -24,7 +25,10 @@ volumes: [
     stage('Create Docker images') {
       container('docker') {
           sh """
-            docker login -u admin
+            docker login -u admin -p Harbor12345
+            docker built -t image:v1 .
+            docker push image:v1
+
             """
 
       }
