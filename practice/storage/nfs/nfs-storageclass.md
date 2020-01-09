@@ -11,7 +11,7 @@ git clone https://github.com/kubernetes-incubator/external-storage.git
 cd external-storage/nfs-client/deploy/
 # 替换nfs服务端地址
 sed -i 's#10.10.10.60#10.10.10.5#g' deployment.yaml
-# 替换挂载的目录
+# 替换挂载的目录, 一个是环境变量，一个是volume的值都得替换成nfs服务端有的目录
 sed -i 's#/ifs/kubernetes#/data/data#g' deployment.yaml
 # 创建deployment
 kubectl  apply -f deployment.yaml

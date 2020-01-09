@@ -34,6 +34,7 @@ spec:
             - name: NFS_SERVER
               value: 10.10.10.60
             - name: NFS_PATH
+              # 这个值要和下面的一致
               value: /ifs/kubernetes
       volumes:
         - name: nfs-client-root
