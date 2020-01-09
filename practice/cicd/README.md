@@ -11,3 +11,6 @@ https://docs.docker.com/config/pruning/
 # 删除没有被引用镜像
 docker image prune -a --filter "until=24h"
 ```
+
+
+官方中文文档： https://jenkins.io/zh/doc/tutorials/
