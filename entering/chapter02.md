@@ -253,6 +253,7 @@ git clone https://github.com/kubernetes/kubernetes.git
 vim vendor/k8s.io/client-go/util/cert/cert.go
 
 
+
 # 修改证书
 ```
 
@@ -268,6 +269,10 @@ kubeadm alpha certs renew -h
 # 替换所有证书
 kubeadm alpha certs renew all
 ```
+
+上面的指令需要和`--csr-only`参数进行修改
+
+[参考文档](https://v1-15.docs.kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/)
 
 ### 3. kubeadm join 对应的token过期
 

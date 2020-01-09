@@ -11,7 +11,7 @@ podTemplate(label: label, containers: [
 ],
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')，
-  hostPathVolume(mountPath: '/opt/kube/bin/docker', hostPath: '/usr/bin/docker'),
+
 ]) {
   node(label) {
     stage('Get a Maven Project') {
@@ -35,4 +35,9 @@ volumes: [
     }
   }
 }
+```
+
+其中`docker`镜像里面包含了`docker`命令,下面这个挂载是可以不使用的
+```
+hostPathVolume(mountPath: '/opt/kube/bin/docker', hostPath: '/usr/bin/docker'),
 ```
