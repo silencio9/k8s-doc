@@ -19,10 +19,11 @@
   * [4.本地存储](storage/local-persistent-storage.md)
 * [七、kubernetes之集群资源管理](cluster-resources/README.md)
   * [1. Node](cluster-resources/nodes.md)
-  * [2. Namespace]
-  * [3. Label]
-  * [4. Annotation]
-  * [5. Taint和Toleration]
+  * [2. Namespace](cluster-resources/namespace.md)
+  * [3. Label](cluster-resources/label.md)
+  * [4. Annotation](cluster-resources/annotations.md)
+  * [5. Taint和Toleration](cluster-resources/taint-and-toleration.md)
+  * [6. 亲和性和反亲和性](cluster-resources/assign-pod-node.md)
 * [八、kubernetes之实践](practice/README.md)
   * [1. kubernetes集群部署](practice/kubernetes-colony/README.md)
     * [1.1 二进制下载](practice/kubernetes-colony/chapter01.md)
