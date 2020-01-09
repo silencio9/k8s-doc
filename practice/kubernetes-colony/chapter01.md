@@ -14,14 +14,6 @@ wget https://dl.k8s.io/v1.16.3/kubernetes-server-linux-amd64.tar.gz
 wget https://dl.k8s.io/v1.16.3/kubernetes-node-linux-amd64.tar.gz
 ```
 
-百度云地址
-
-```shell
-# 下载后请去github匹配一下md5码，不保证是否被串改，主要是针对生产环境的谨慎
-链接：https://pan.baidu.com/s/1dPdsKdCDOeoBUsegxnp1EA
-提取码：37ap
-```
-
 ```shell
 tar xf kubernetes-client-linux-amd64.tar.gz
 tar xf kubernetes-server-linux-amd64.tar.gz
